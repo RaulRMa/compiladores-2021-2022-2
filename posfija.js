@@ -24,7 +24,7 @@ const esOperadorLetra = (letra = "") => {
   for (let j = 97; j <= 122; j++) {
     if (j == asciiLetra) return letra;
   }
-  //codigo ascii del punto S
+  //codigo ascii del punto
   if(asciiLetra == 46) return letra;
   return "\0";
 };
