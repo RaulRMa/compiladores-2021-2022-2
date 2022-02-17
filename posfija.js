@@ -29,7 +29,7 @@ const esOperadorLetra = (letra = "") => {
 
 const definePrioridad = (arregloOps = []) => {
   const resultado = arregloOps.map((elemento, indice) => {
-    if (elemento == "*" || elemento == "+"  || elemento == "?") {
+    if (elemento == "*" || elemento == "+" || elemento == "?") {
       return inicializaOperador(3, elemento, true);
     }
     if (elemento == "&") {
@@ -67,7 +67,7 @@ const esOperando = (caracter = "") => {
 };
 
 const parentesisDerecho = (pila = []) => {
-  let tamano = pila.length -1;
+  let tamano = pila.length - 1;
   const limite = pila.length;
   for (let i = 0; i < limite; i++) {
     const tope = pila[tamano--];
@@ -81,16 +81,15 @@ const parentesisDerecho = (pila = []) => {
 };
 
 const caracterOperador = (pila = [], operador = "") => {
-  
-  if(pila.length == 0){
+  if (pila.length == 0) {
     pila.push(operador);
     return;
   }
   let bandera = true;
   let tope = pila[pila.length - 1];
   while (bandera) {
-    if(pila.length != 0){
-      tope = pila[pila.length -1];
+    if (pila.length != 0) {
+      tope = pila[pila.length - 1];
     }
     if (pila.length == 0 || tope == "(" || mayorPrioridad(operador, tope)) {
       pila.push(operador);
@@ -110,7 +109,7 @@ function excepcionCaracter(caracter) {
   this.caracter = caracter;
 }
 
-const convierteInfija = (arregloInfija = [], pila = []) => {
+const convierteInfAPos = (arregloInfija = [], pila = []) => {
   posfija = "";
   const prioridades = definePrioridad(arregloOperadores);
   let indice = 0;
@@ -136,42 +135,37 @@ const convierteInfija = (arregloInfija = [], pila = []) => {
     }
     caracter = arregloInfija[++indice];
   }
-  for(let i = pila.length - 1;i > - 1; i--) posfija += pila[i];
+  for (let i = pila.length - 1; i > -1; i--) posfija += pila[i];
 };
 
-const convierteAInfija = (expresion = '') =>{
-  const arreglo = expresion.split('');
-  let cadena = ''
-  for(let i = 0; i < arreglo.length; i++){
+const convierteAInfija = (expresion = "") => {
+  const arreglo = expresion.split("");
+  let cadena = "";
+  for (let i = 0; i < arreglo.length; i++) {
     const caracter = arreglo[i];
-    
-    if(caracter != "]") cadena += caracter;
-    if(i + 1 < arreglo.length){
+
+    if (caracter != "]") cadena += caracter;
+
+    if (i + 1 < arreglo.length) {
       const indice = i + 1;
-      const actual = arreglo[indice]
+      const actual = arreglo[indice];
       const anterior = arreglo[indice - 1];
-      switch(actual){
-        case '|':
-        case '*':
-        case '+':
-        case '?':
-        case '&':
-        case ')': break;
-        default:
-          if(anterior != "(" && anterior != "|" && anterior != "&" && indice - 1 >= 0){
-            cadena += '&';
-          }
-          break;
-      }
+      if (esOperador(actual) || actual == ")") continue;
+      if (
+        anterior != "(" &&
+        anterior != "|" &&
+        anterior != "&" &&
+        indice - 1 >= 0
+      )
+        cadena += "&";
     }
   }
   return cadena;
-}
+};
 
 export function convierteAPosfija(expReg = "") {
   const pila = [];
   const resultado = convierteAInfija(expReg);
-  console.log(resultado);
-  convierteInfija(resultado, pila);
+  convierteInfAPos(resultado, pila);
   return posfija;
 }
