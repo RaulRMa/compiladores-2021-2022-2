@@ -27,20 +27,26 @@ const esOperadorLetra = (letra = "") => {
   return "\0";
 };
 
+//Orden de precedencia 
 const definePrioridad = (arregloOps = []) => {
   const resultado = arregloOps.map((elemento, indice) => {
+    //Operadores Unarios
     if (elemento == "*" || elemento == "+"  || elemento == "?") {
       return inicializaOperador(3, elemento, true);
     }
+    //Concatenacion
     if (elemento == "&") {
       return inicializaOperador(2, elemento, false);
     } else {
+
+      //Seleccion de alternativas 
       return inicializaOperador(indice + 1, elemento, false);
     }
   });
   return resultado;
 };
 
+//Identificar que tipo de Operador es 
 const inicializaOperador = (orden, simbolo, unario) => {
   const operadorSimbolo = { ...operador };
   operadorSimbolo["orden"] = orden;
@@ -59,19 +65,22 @@ const esOperador = (caracter = "") => {
   return false;
 };
 
+//Rango de operando sea de numero
 const esOperando = (caracter = "") => {
   for (let i = 0; i < 10; i++) {
     if (Number(caracter) == i) return caracter;
   }
+  //si no el operador es letra 
   return esOperadorLetra(caracter);
 };
 
+//Si el caracter es parentesis derecho 
 const parentesisDerecho = (pila = []) => {
-  let tamano = pila.length -1;
+  let tamano = pila.length -1; //Extraer de la pila 
   const limite = pila.length;
   for (let i = 0; i < limite; i++) {
     const tope = pila[tamano--];
-    if (tope != "(") {
+    if (tope != "(") { //Hasta encontrar parentesis izquierdo
       posfija += pila.pop();
       continue;
     }
@@ -80,20 +89,26 @@ const parentesisDerecho = (pila = []) => {
   }
 };
 
+//En caso de que sea caracter operando
 const caracterOperador = (pila = [], operador = "") => {
   
+
   if(pila.length == 0){
     pila.push(operador);
     return;
   }
+
+
   let bandera = true;
   let tope = pila[pila.length - 1];
   while (bandera) {
+    //Checa si pila esta vacia 
     if(pila.length != 0){
       tope = pila[pila.length -1];
     }
+    //compara si tope de la pila es un parentesis izquierdo
     if (pila.length == 0 || tope == "(" || mayorPrioridad(operador, tope)) {
-      pila.push(operador);
+      pila.push(operador); //Compara operador tiene mayor prioridad que el tope de la pila
       bandera = false;
     } else posfija += pila.pop();
   }
@@ -145,6 +160,8 @@ const convierteAInfija = (expresion = '') =>{
   for(let i = 0; i < arreglo.length; i++){
     const caracter = arreglo[i];
     
+    
+
     if(caracter != "]") cadena += caracter;
     if(i + 1 < arreglo.length){
       const indice = i + 1;
