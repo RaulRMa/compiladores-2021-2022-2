@@ -1,6 +1,7 @@
 const operador = {
   orden: 0,
   simbolo: "",
+  unario: false,
 };
 const arregloOperadores = ["|", "&", "+", "*", "?"];
 let posfija = "";
@@ -29,26 +30,23 @@ const esOperadorLetra = (letra = "") => {
 const definePrioridad = (arregloOps = []) => {
   const resultado = arregloOps.map((elemento, indice) => {
     if (elemento == "*" || elemento == "+"  || elemento == "?") {
-      return inicializaOperador(3, elemento);
+      return inicializaOperador(3, elemento, true);
     }
     if (elemento == "&") {
-      return inicializaOperador(2, elemento);
+      return inicializaOperador(2, elemento, false);
     } else {
-      return inicializaOperador(indice + 1, elemento);
+      return inicializaOperador(indice + 1, elemento, false);
     }
   });
   return resultado;
 };
 
-const inicializaOperador = (orden, simbolo) => {
+const inicializaOperador = (orden, simbolo, unario) => {
   const operadorSimbolo = { ...operador };
   operadorSimbolo["orden"] = orden;
   operadorSimbolo["simbolo"] = simbolo;
+  operadorSimbolo["unario"] = unario;
   return operadorSimbolo;
-};
-
-const inicializaInfija = (expresion = "") => {
-  return expresion.split("");
 };
 
 const esOperador = (caracter = "") => {
@@ -69,9 +67,11 @@ const esOperando = (caracter = "") => {
 };
 
 const parentesisDerecho = (pila = []) => {
-  for (let i = 0; i < pila.length; i++) {
-    const elemento = pila[i];
-    if (elemento != "(") {
+  let tamano = pila.length -1;
+  const limite = pila.length;
+  for (let i = 0; i < limite; i++) {
+    const tope = pila[tamano--];
+    if (tope != "(") {
       posfija += pila.pop();
       continue;
     }
@@ -81,9 +81,17 @@ const parentesisDerecho = (pila = []) => {
 };
 
 const caracterOperador = (pila = [], operador = "") => {
+  
+  if(pila.length == 0){
+    pila.push(operador);
+    return;
+  }
   let bandera = true;
-  const tope = pila[pila.length - 1];
+  let tope = pila[pila.length - 1];
   while (bandera) {
+    if(pila.length != 0){
+      tope = pila[pila.length -1];
+    }
     if (pila.length == 0 || tope == "(" || mayorPrioridad(operador, tope)) {
       pila.push(operador);
       bandera = false;
@@ -94,7 +102,7 @@ const caracterOperador = (pila = [], operador = "") => {
 const mayorPrioridad = (operador = "", tope = "") => {
   const prioridadOperador = definePrioridad([operador]);
   const prioridadTope = definePrioridad([tope]);
-  return prioridadOperador[0].orden < prioridadTope[0].orden;
+  return prioridadOperador[0].orden > prioridadTope[0].orden;
 };
 
 function excepcionCaracter(caracter) {
@@ -128,7 +136,7 @@ const convierteInfija = (arregloInfija = [], pila = []) => {
     }
     caracter = arregloInfija[++indice];
   }
-  pila.forEach((elemento) => (posfija += elemento));
+  for(let i = pila.length - 1;i > - 1; i--) posfija += pila[i];
 };
 
 const convierteAInfija = (expresion = '') =>{
@@ -161,9 +169,7 @@ const convierteAInfija = (expresion = '') =>{
 }
 
 export function convierteAPosfija(expReg = "") {
-  console.log("Entrando a la funcion");
   const pila = [];
-  //const arregloInfija = inicializaInfija(expReg);
   const resultado = convierteAInfija(expReg);
   console.log(resultado);
   convierteInfija(resultado, pila);
