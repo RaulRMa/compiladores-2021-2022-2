@@ -91,9 +91,7 @@ const parentesisDerecho = (pila = []) => {
 
 //En caso de que sea caracter operando
 const caracterOperador = (pila = [], operador = "") => {
-  
-
-  if(pila.length == 0){
+  if (pila.length == 0) {
     pila.push(operador);
     return;
   }
@@ -125,7 +123,7 @@ function excepcionCaracter(caracter) {
   this.caracter = caracter;
 }
 
-const convierteInfija = (arregloInfija = [], pila = []) => {
+const convierteInfAPos = (arregloInfija = [], pila = []) => {
   posfija = "";
   const prioridades = definePrioridad(arregloOperadores);
   let indice = 0;
@@ -151,44 +149,37 @@ const convierteInfija = (arregloInfija = [], pila = []) => {
     }
     caracter = arregloInfija[++indice];
   }
-  for(let i = pila.length - 1;i > - 1; i--) posfija += pila[i];
+  for (let i = pila.length - 1; i > -1; i--) posfija += pila[i];
 };
 
-const convierteAInfija = (expresion = '') =>{
-  const arreglo = expresion.split('');
-  let cadena = ''
-  for(let i = 0; i < arreglo.length; i++){
+const convierteAInfija = (expresion = "") => {
+  const arreglo = expresion.split("");
+  let cadena = "";
+  for (let i = 0; i < arreglo.length; i++) {
     const caracter = arreglo[i];
-    
-    
 
-    if(caracter != "]") cadena += caracter;
-    if(i + 1 < arreglo.length){
+    if (caracter != "]") cadena += caracter;
+
+    if (i + 1 < arreglo.length) {
       const indice = i + 1;
-      const actual = arreglo[indice]
+      const actual = arreglo[indice];
       const anterior = arreglo[indice - 1];
-      switch(actual){
-        case '|':
-        case '*':
-        case '+':
-        case '?':
-        case '&':
-        case ')': break;
-        default:
-          if(anterior != "(" && anterior != "|" && anterior != "&" && indice - 1 >= 0){
-            cadena += '&';
-          }
-          break;
-      }
+      if (esOperador(actual) || actual == ")") continue;
+      if (
+        anterior != "(" &&
+        anterior != "|" &&
+        anterior != "&" &&
+        indice - 1 >= 0
+      )
+        cadena += "&";
     }
   }
   return cadena;
-}
+};
 
 export function convierteAPosfija(expReg = "") {
   const pila = [];
   const resultado = convierteAInfija(expReg);
-  console.log(resultado);
-  convierteInfija(resultado, pila);
+  convierteInfAPos(resultado, pila);
   return posfija;
 }
