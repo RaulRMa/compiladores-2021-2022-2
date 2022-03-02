@@ -1,4 +1,5 @@
 import { convierteAPosfija } from "./posfija.js"; //Importa la función de conversión
+import {afn} from "./afn.js"
 /**
  * Obtiene los elementos HTML a manipular mediante código
  *  - boton: boton html que desencadena las acciones del algoritmo
@@ -47,3 +48,9 @@ const clickBotonConvierte = () => {
 };
 boton.addEventListener("click", clickBotonConvierte);
 
+//Obtiene el botón de AFN
+const btnAfn = document.getElementById("btn-afn");
+const clickCreaAfn = () =>{
+  afn();
+}
+btnAfn.addEventListener("click", clickCreaAfn);
