@@ -4,7 +4,7 @@ const Estado = (nombre = 0, tipo = "") => {
   return {
     nombre,
     tipo,
-    visitado:false,
+    visitado: false,
   };
 };
 const Transicion = (
@@ -33,46 +33,111 @@ const Automata = (nombre = "", transiciones = []) => {
 };
 
 const obtenEdos = (automata = Automata()) => {
-  const indiceFin = automata.transiciones.length -1;
+  const indiceFin = automata.transiciones.length - 1;
   const transIni = automata.transiciones[0];
   const transFin = automata.transiciones[indiceFin];
   const nombresIni = {
     nombre: transIni["nombre"],
-    nombreInicio:transIni["estadoInicio"]["nombre"],
-    nombreFin:transIni["estadoDestino"]["nombre"],
+    nombreInicio: transIni["estadoInicio"]["nombre"],
+    nombreFin: transIni["estadoDestino"]["nombre"],
     estIni: transIni["estadoInicio"],
     estFin: transIni["estadoDestino"],
-  }
+  };
   const nombresFin = {
     nombre: transFin["nombre"],
-    nombreInicio:transFin["estadoInicio"]["nombre"],
-    nombreFin:transFin["estadoDestino"]["nombre"],
+    nombreInicio: transFin["estadoInicio"]["nombre"],
+    nombreFin: transFin["estadoDestino"]["nombre"],
     estIni: transFin["estadoInicio"],
-    estFin: transFin["estadoDestino"]
-  }
-  return {nombresIni,nombresFin}
-}
+    estFin: transFin["estadoDestino"],
+  };
+  return { nombresIni, nombresFin };
+};
 
-
-const alternativas = (automata = Automata(),automat2 = Automata(), nombre) => {
+const alternativas = (automata = Automata(), automat2 = Automata(), nombre) => {
   const edosAut1 = obtenEdos(automata);
   const edosAut2 = obtenEdos(automat2);
-  const inicio = Estado(edosAut1.nombresIni.nombreInicio -1, "inicio");
-  const acept = Estado(edosAut2.nombresFin.nombreFin +1, "aceptación");
+  const inicio = Estado(edosAut1.nombresIni.nombreInicio - 1, "inicio");
+  const acept = Estado(edosAut2.nombresFin.nombreFin + 1, "aceptación");
 
   const transiciones = [];
   const epsilon1 = Transicion(inicio, edosAut1.nombresIni.estIni, "e");
   const epsilon2 = Transicion(inicio, edosAut2.nombresIni.estIni, "e");
   transiciones.push(epsilon1);
   transiciones.push(epsilon2);
-  automata.transiciones.forEach(elemento => transiciones.push(elemento));
-  automat2.transiciones.forEach(elemento => transiciones.push(elemento));
+  automata.transiciones.forEach((elemento) => transiciones.push(elemento));
+  automat2.transiciones.forEach((elemento) => transiciones.push(elemento));
   const epsilon3 = Transicion(edosAut1.nombresFin.estFin, acept, "e");
   const epsilon4 = Transicion(edosAut2.nombresFin.estFin, acept, "e");
   transiciones.push(epsilon3);
   transiciones.push(epsilon4);
   return Automata(nombre, transiciones);
 };
+
+const concatenacion = (
+  automata = Automata(),
+  automat2 = Automata(),
+  nombre
+) => {
+  const transiciones1 = [];
+  const transiciones2 = [];
+  const transiciones = [];
+  let edo1 = "";
+  let edo2 = "";
+  let transAux = "";
+  automata.transiciones.forEach((transicion, indx) => {
+    if (indx == automata.transiciones.length - 1) {
+      edo1 = transicion.estadoDestino;
+    }
+    transiciones1.push(transicion);
+  });
+  automat2.transiciones.forEach((transicion, indx) => {
+    if (indx == 0) {
+      edo2 = transicion.estadoDestino;
+      transAux = transicion;
+      edo2.nombre--;
+    } else {
+      transiciones2.push(transicion);
+      if (indx == automat2.transiciones.length - 1)
+        transicion.estadoDestino.nombre--;
+    }
+  });
+  const concatenacion = Transicion(edo1, edo2, transAux.nombre);
+  transiciones1.forEach((elemento) => transiciones.push(elemento));
+  transiciones.push(concatenacion);
+  transiciones2.forEach((elemento) => transiciones.push(elemento));
+  return Automata(nombre, transiciones);
+};
+
+const cerraduraPositiva = (automata = Automata(), nombre = '') =>{
+  const transiciones = [];
+  reEnumera(automata.transiciones);
+  const final = automata.transiciones.length -1;
+  const transAut1 = automata.transiciones[0];
+  const transAut2 = automata.transiciones[final];
+  const edoInicio = Estado(transAut1.estadoInicio.nombre -1,'inicio');
+  const edoAcept = Estado(transAut2.estadoDestino.nombre +1,'aceptacion');
+  const trans1 = Transicion(edoInicio,transAut1.estadoInicio,'e');
+  const trans2 = Transicion(transAut2.estadoDestino,edoAcept,'e');
+  const trans3 = Transicion(transAut2.estadoDestino,transAut1.estadoInicio,'e');
+  transiciones.push(trans1);
+  automata.transiciones.forEach(elemento => transiciones.push(elemento));
+  transiciones.push(trans3);
+  transiciones.push(trans2);
+  return Automata(nombre, transiciones);
+}
+
+const kleen = (automata, nombre) => {
+  const transiciones = [];
+  const resultado = cerraduraPositiva(automata, nombre);
+  const inicio = resultado.transiciones.shift();
+  const indxFin = resultado.transiciones.length -1;
+  const final = resultado.transiciones[indxFin];
+  const transicion = Transicion(inicio.estadoInicio,final.estadoDestino,'e');
+  transiciones.push(inicio);
+  transiciones.push(transicion);
+  resultado.transiciones.forEach(elemento => transiciones.push(elemento));
+  return Automata(nombre,transiciones);
+}
 
 const esOperando = (caracter = "") => {
   const expresionRegular = "^[a-zA-Z0-9]$";
@@ -94,36 +159,35 @@ const esUnario = (caracter = "") => {
 };
 
 const reEnumera = (pila = []) => {
-  if(pila.length > 1){
-    pila.forEach((elemento,indx) => {
-      if(!elemento.estadoInicio.visitado){
+  if (pila.length > 1) {
+    pila.forEach((elemento, indx) => {
+      if (!elemento.estadoInicio.visitado) {
         elemento.estadoInicio.visitado = true;
         elemento.estadoInicio.nombre++;
       }
-      if(indx == pila.length -1){
+      if (indx == pila.length - 1) {
         elemento.estadoDestino.nombre++;
       }
     });
-  }else{
-    pila.forEach(elemento => {
+  } else {
+    pila.forEach((elemento) => {
       elemento.estadoInicio.nombre++;
       elemento.estadoDestino.nombre++;
-    })
+    });
   }
-
-}
+};
 
 const creaAfn = () => {
-  const unaPosfija = ["a", "b", "|", "c", "d", "|", "|"];
+  const unaPosfija = ["a", "b","|","*"];
   const pila = [];
   let indice = 0;
   let contador = 1;
   unaPosfija.forEach((elemento, i) => {
     switch (elemento) {
       case esOperando(elemento):
-        if(pila.length != 0) {
-          const transFin = obtenEdos(pila[pila.length -1]);
-          indice = transFin.nombresFin.estFin.nombre +1;
+        if (pila.length != 0) {
+          const transFin = obtenEdos(pila[pila.length - 1]);
+          indice = transFin.nombresFin.estFin.nombre + 1;
         }
         const transicion = creaTransicion(elemento, indice);
         const result = Automata(`r${contador++}`, [transicion]);
@@ -131,15 +195,33 @@ const creaAfn = () => {
         break;
       case esOperador(elemento):
         if (!esUnario(elemento)) {
+          const op2 = pila.pop();
+          const op1 = pila.pop();
+          let resultado;
           switch (elemento) {
             case "|":
-              const op2 = pila.pop();
-              const op1 = pila.pop();
               reEnumera(op2.transiciones);
               reEnumera(op1.transiciones);
-              const resultado = alternativas(op1, op2, `r${contador++}`);
+              resultado = alternativas(op1, op2, `r${contador++}`);
               pila.push(resultado);
               break;
+            case "&":
+              resultado = concatenacion(op1, op2, `r${contador++}`);
+              pila.push(resultado);
+              break;
+          }
+        }else{
+          const op = pila.pop();
+          let resultado = '';
+          switch(elemento){
+            case "+":
+              resultado = cerraduraPositiva(op,`r${contador++}`);
+              console.log(resultado);
+            break;
+            case "*":
+              resultado = kleen(op,`r${contador++}`);
+              console.log(resultado);
+            break;
           }
         }
         break;
