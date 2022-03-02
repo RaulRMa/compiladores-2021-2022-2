@@ -34,10 +34,12 @@ const alerta = document.createElement("div");
  * renderiza en el html
  */
 // 3*(6-4+(2*3))+1
+let posfija = '';
 const clickBotonConvierte = () => {
+  posfija = '';
   const expresion = inputExpresion.value;
   try {
-    let posfija = convierteAPosfija(expresion);
+    posfija = convierteAPosfija(expresion);
     inputResultado.value = posfija;
   } catch (error) {
     alerta.setAttribute("class", "alert alert-warning my-0");
@@ -51,6 +53,10 @@ boton.addEventListener("click", clickBotonConvierte);
 //Obtiene el botón de AFN
 const btnAfn = document.getElementById("btn-afn");
 const clickCreaAfn = () =>{
-  afn();
+  if(posfija != ''){
+    afn(posfija);
+  }else{
+    alert("No hay posfija");
+  }
 }
 btnAfn.addEventListener("click", clickCreaAfn);

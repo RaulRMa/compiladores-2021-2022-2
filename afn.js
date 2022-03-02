@@ -83,7 +83,9 @@ const concatenacion = (
   const transiciones = [];
   let edo1 = "";
   let edo2 = "";
+  let edo3 = "";
   let transAux = "";
+  let transAux2 = "";
   automata.transiciones.forEach((transicion, indx) => {
     if (indx == automata.transiciones.length - 1) {
       edo1 = transicion.estadoDestino;
@@ -93,17 +95,30 @@ const concatenacion = (
   automat2.transiciones.forEach((transicion, indx) => {
     if (indx == 0) {
       edo2 = transicion.estadoDestino;
-      transAux = transicion;
       edo2.nombre--;
-    } else {
-      transiciones2.push(transicion);
-      if (indx == automat2.transiciones.length - 1)
-        transicion.estadoDestino.nombre--;
+      transAux = transicion;
+      edo2.visitado = true;
+    }else if(indx == 1){
+      edo3 = transicion.estadoDestino;
+      edo3.nombre--;
+      transAux2 = transicion;
+      edo3.visitado = true;
+    }
+     else {
+      if(!transicion.estadoInicio.visitado){
+        transicion.estadoInicio.nombre--;
+      }
+      transiciones.push(transicion);
+      if(indx == automat2.transiciones.length -1){
+        transicion.estadoDestino--;
+      }
     }
   });
   const concatenacion = Transicion(edo1, edo2, transAux.nombre);
+  const concatenacion2 = Transicion(edo1,edo3);
   transiciones1.forEach((elemento) => transiciones.push(elemento));
   transiciones.push(concatenacion);
+  transiciones.push(concatenacion2);
   transiciones2.forEach((elemento) => transiciones.push(elemento));
   return Automata(nombre, transiciones);
 };
@@ -136,6 +151,23 @@ const kleen = (automata, nombre) => {
   transiciones.push(inicio);
   transiciones.push(transicion);
   resultado.transiciones.forEach(elemento => transiciones.push(elemento));
+  return Automata(nombre,transiciones);
+}
+
+const ceroOUnaInstancia = (automata, nombre) => {
+  reEnumera(automata.transiciones);
+  const transiciones = [];
+  const inicio = automata.transiciones[0];
+  const final = automata.transiciones[automata.transiciones.length -1];
+  const edoIni = Estado(inicio.estadoInicio.nombre-1, 'inicio');
+  const edoFin = Estado(final.estadoDestino.nombre+1,'aceptacion');
+  const trans1 = Transicion(edoIni,inicio.estadoInicio,'e');
+  const trans2 = Transicion(edoIni, edoFin,'e');
+  const trans3 = Transicion(final.estadoDestino,edoFin,'e');
+  transiciones.push(trans1);
+  transiciones.push(trans2);
+  automata.transiciones.forEach(elemento => transiciones.push(elemento));
+  transiciones.push(trans3);
   return Automata(nombre,transiciones);
 }
 
@@ -177,8 +209,8 @@ const reEnumera = (pila = []) => {
   }
 };
 
-const creaAfn = () => {
-  const unaPosfija = ["a", "b","|","*"];
+const creaAfn = (posfija) => {
+  const unaPosfija = posfija;
   const pila = [];
   let indice = 0;
   let contador = 1;
@@ -222,6 +254,10 @@ const creaAfn = () => {
               resultado = kleen(op,`r${contador++}`);
               console.log(resultado);
             break;
+            case "?":
+              resultado = ceroOUnaInstancia(op,`r${contador++}`);
+              console.log(resultado);
+            break;
           }
         }
         break;
@@ -233,5 +269,5 @@ const creaAfn = () => {
 
 export function afn(posfija = "") {
   arrPosfija = posfija.split("");
-  creaAfn();
+  creaAfn(arrPosfija);
 }
