@@ -92,32 +92,31 @@ const concatenacion = (
     }
     transiciones1.push(transicion);
   });
+  if(automat2.transiciones.length > 1){}
   automat2.transiciones.forEach((transicion, indx) => {
-    if (indx == 0) {
+    if (indx == 0 && transicion.nombre == "e") {
       edo2 = transicion.estadoDestino;
       edo2.nombre--;
       transAux = transicion;
-      edo2.visitado = true;
-    }else if(indx == 1){
+    }else if(indx == 1 && transicion.nombre == "e"){
       edo3 = transicion.estadoDestino;
       edo3.nombre--;
       transAux2 = transicion;
-      edo3.visitado = true;
     }
-     else {
-      if(!transicion.estadoInicio.visitado){
-        transicion.estadoInicio.nombre--;
+    else{
+      if(transicion.nombre == "e"){
+        if(indx == automat2.transiciones.length -1){
+          transicion.estadoDestino.nombre++;
+        }
+        transicion.estadoDestino.nombre--;
       }
-      transiciones.push(transicion);
-      if(indx == automat2.transiciones.length -1){
-        transicion.estadoDestino--;
-      }
+      transiciones2.push(transicion);
     }
   });
   const concatenacion = Transicion(edo1, edo2, transAux.nombre);
-  const concatenacion2 = Transicion(edo1,edo3);
   transiciones1.forEach((elemento) => transiciones.push(elemento));
   transiciones.push(concatenacion);
+  const concatenacion2 = Transicion(edo1,edo3,transAux2.nombre);
   transiciones.push(concatenacion2);
   transiciones2.forEach((elemento) => transiciones.push(elemento));
   return Automata(nombre, transiciones);
