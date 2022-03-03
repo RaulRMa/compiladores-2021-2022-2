@@ -1,5 +1,5 @@
 import { convierteAPosfija } from "./posfija.js"; //Importa la función de conversión
-import {afn} from "./afn.js"
+import {afn, encabezados} from "./afn.js"
 /**
  * Obtiene los elementos HTML a manipular mediante código
  *  - boton: boton html que desencadena las acciones del algoritmo
@@ -54,9 +54,15 @@ boton.addEventListener("click", clickBotonConvierte);
 const btnAfn = document.getElementById("btn-afn");
 const clickCreaAfn = () =>{
   if(posfija != ''){
-    afn(posfija);
+    const automata = afn(posfija);
+    const enc = encabezados(automata);
+
   }else{
     alert("No hay posfija");
   }
+}
+
+const encabezadosTabla = () => {
+  
 }
 btnAfn.addEventListener("click", clickCreaAfn);
