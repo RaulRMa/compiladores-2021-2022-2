@@ -127,15 +127,23 @@ const concatenacion = (
     transiciones1.push(transicion);
   });
   if (tipo == 0) {
+    
+    colocaNoVisitado(automat2.transiciones);
+    automat2.transiciones.forEach((elemento, indx) => {
+      if (!elemento.estadoInicio.visitado) {
+        elemento.estadoInicio.visitado = true;
+        elemento.estadoInicio.nombre--;
+      }
+      if (indx == automat2.transiciones.length - 1) {
+        elemento.estadoDestino.nombre--;
+      }
+    })
     automat2.transiciones.forEach((transicion, indx) => {
       if (indx == 0) {
         edo2 = transicion.estadoDestino;
         transAux = transicion;
-        edo2.nombre--;
       } else {
         transiciones2.push(transicion);
-        if (indx == automat2.transiciones.length - 1)
-          transicion.estadoDestino.nombre--;
       }
     });
     const concatenacion = Transicion(edo1, edo2, transAux.nombre);
@@ -327,11 +335,13 @@ const creaAfn = (posfija) => {
   return pila;
 };
 
-const encabezados = (arreglo = []) => {
+const encabezados = () => {
   const resultado = [];
-  for (let i = 0; i < arreglo.length; i++) {
-    const element = arreglo[i];
-    if(esOperador(element)) resultado.push(element);
+  for (let i = 0; i < arrPosfija.length; i++) {
+    const element = arrPosfija[i];
+    if(esOperando(element) == element){
+      resultado.push(element);
+    }
   }
   return resultado;
 }
