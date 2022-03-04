@@ -1,5 +1,5 @@
 import { convierteAPosfija } from "./posfija.js"; //Importa la función de conversión
-import {afn, encabezados} from "./afn.js"
+import { afn, encabezados } from "./afn.js";
 /**
  * Obtiene los elementos HTML a manipular mediante código
  *  - boton: boton html que desencadena las acciones del algoritmo
@@ -25,7 +25,7 @@ const contenedor = document.getElementById("contenedor-principal");
 const alerta = document.createElement("div");
 
 /**
- * Ejecuta la función de conversión de la expresión infija 
+ * Ejecuta la función de conversión de la expresión infija
  * a posfija.
  * Despliega el resultado en el inputResultado en caso de que
  * la operación se haya realizado correctamente.
@@ -34,9 +34,9 @@ const alerta = document.createElement("div");
  * renderiza en el html
  */
 // 3*(6-4+(2*3))+1
-let posfija = '';
+let posfija = "";
 const clickBotonConvierte = () => {
-  posfija = '';
+  posfija = "";
   const expresion = inputExpresion.value;
   try {
     posfija = convierteAPosfija(expresion);
@@ -52,17 +52,80 @@ boton.addEventListener("click", clickBotonConvierte);
 
 //Obtiene el botón de AFN
 const btnAfn = document.getElementById("btn-afn");
-const clickCreaAfn = () =>{
-  if(posfija != ''){
+const clickCreaAfn = () => {
+  if (posfija != "") {
     const automata = afn(posfija);
     const enc = encabezados(automata);
-
-  }else{
+    const tamano = automata[0].transiciones.length;
+    encabezadosTabla(enc);
+    const columnas = columnasTabla(automata[0].transiciones, enc);
+    agregaTotales(automata);
+    agregaFilas(columnas, tamano, enc);
+  } else {
     alert("No hay posfija");
   }
-}
+};
 
-const encabezadosTabla = () => {
-  
-}
+const agregaTotales = (automata) => {
+  const fin = automata[0].transiciones.length;
+  const totEdos = automata[0].transiciones[fin - 1].estadoDestino.nombre;
+  const totTrans = fin;
+  $("#n-estados").append(
+    `<div class="btn btn-dark" >Número de estados: ${totEdos}</div>`
+  );
+  $("#n-transiciones").append(
+    `<div class="btn btn-dark" >Número de transiciones: ${totTrans}</div>`
+  );
+};
+
+const encabezadosTabla = (arreglo = []) => {
+  let element;
+  let indx;
+  $("#ths-aut").append(`<th scope="col" class="enc-aut">Edo</th>`);
+  arreglo.forEach((elemento, i) => {
+    element = `
+        <th scope="col" class="enc-aut" id="th-${i}">${elemento}</th>
+    `;
+    $("#ths-aut").append(element);
+  });
+  $("#ths-aut").append(`<th scope="col" class="enc-aut">ε</th>`);
+};
+
+const columnasTabla = (transiciones = [], operandos = []) => {
+  operandos.push("ε");
+  const columnas = [];
+  for (let i = 0; i < operandos.length; i++) {
+    const op = operandos[i];
+    const conjuntos = [];
+    const objeto = { operando: op };
+    for (let j = 0; j < transiciones.length; j++) {
+      const trans = transiciones[j];
+      if (op == trans.nombre) {
+        conjuntos.push(trans);
+      } else {
+        conjuntos.push("Φ");
+      }
+    }
+    objeto["transiciones"] = conjuntos;
+    columnas.push(objeto);
+  }
+  console.log("Ordenado", columnas);
+  return columnas;
+};
+const agregaFilas = (columnas, tamano, operadores) => {
+  let body = $("#aut-body");
+
+  for (let i = 0; i < tamano; i++) {
+    const fila = $(body).append(`<tr></tr>`);
+    $(fila).append(`<th>${i}</th>`);
+    let band = false;
+    let aux = "";
+    columnas.forEach((col) => {
+      const trans = col.transiciones[i];
+      $(fila).append(
+        `<td>${trans == "Φ" ? trans : trans.estadoDestino.nombre}</td>`
+      );
+    });
+  }
+};
 btnAfn.addEventListener("click", clickCreaAfn);

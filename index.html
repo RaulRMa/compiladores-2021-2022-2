@@ -66,10 +66,28 @@
 
       <div class="w-100 card text-white bg-dark">
         <div class="card-body">
-          <button class="btn btn-dark border" id="btn-afn" type="button">AFN</button>
+          <div class="row">
+            <div class="col-2">
+              <button class="btn btn-dark border" id="btn-afn" type="button">AFN</button>
+            </div>
+            <div class="col-5" id="n-estados">
+            </div>
+            <div class="col-5" id="n-transiciones">
+            </div>
+          </div>
+          <table class="table table-dark mt-3">
+            <thead>
+              <tr id="ths-aut">
+              </tr>
+            </thead>
+            <tbody id="aut-body">
+              
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+    <script src="./libs/jquery.js"></script>
     <script type="module" src="controlador.js"></script>
   </body>
 </html>

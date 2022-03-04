@@ -327,11 +327,13 @@ const creaAfn = (posfija) => {
   return pila;
 };
 
-const encabezados = (arreglo = []) => {
+const encabezados = () => {
   const resultado = [];
-  for (let i = 0; i < arreglo.length; i++) {
-    const element = arreglo[i];
-    if(esOperador(element)) resultado.push(element);
+  for (let i = 0; i < arrPosfija.length; i++) {
+    const element = arrPosfija[i];
+    if(esOperando(element) == element){
+      resultado.push(element);
+    }
   }
   return resultado;
 }
