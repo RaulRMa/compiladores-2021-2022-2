@@ -1,5 +1,6 @@
 import { convierteAPosfija } from "./posfija.js"; //Importa la función de conversión
 import { afn, encabezados } from "./afn.js";
+import {AFD} from './afd.js';
 /**
  * Obtiene los elementos HTML a manipular mediante código
  *  - boton: boton html que desencadena las acciones del algoritmo
@@ -51,14 +52,17 @@ const clickBotonConvierte = () => {
 };
 boton.addEventListener("click", clickBotonConvierte);
 
+let transicionesAfn = [];
+let encabezadosAfd = [];
 //Obtiene el botón de AFN
 const btnAfn = document.getElementById("btn-afn");
 const clickCreaAfn = () => {
   if (posfija != "") {
     const automata = afn(posfija);
     const enc = encabezados(automata);
-    console.log(automata);
+    encabezadosAfd = enc;
     const fin = automata[0].transiciones.length;
+    transicionesAfn = automata[0].transiciones;
     const tamano = automata[0].transiciones[fin - 1].estadoDestino.nombre;
     encabezadosTabla(enc);
     const columnas = columnasTabla(automata[0].transiciones, enc);
@@ -126,7 +130,7 @@ const columnasTabla2 = (transiciones = [], operandos = []) => {
   return columnas;
 };
 const agregaFilas = (columnas, tamano, operadores) => {
-  console.log("Columnas: ", columnas);
+
   let body = $("#aut-body").empty();
   for (let i = 0; i <= tamano; i++) {
     $(body).append(`<tr id="fila-${i}-aut"></tr>`);
@@ -166,3 +170,7 @@ const inicializaElementos = () => {
 
 }
 btnAfn.addEventListener("click", clickCreaAfn);
+
+$("#btn-afd").click(() =>{
+  AFD(transicionesAfn,encabezadosAfd);
+});
