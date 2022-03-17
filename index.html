@@ -11,10 +11,12 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="./estilos/main.css">
     <title>Document</title>
   </head>
   <body>
     <div class="container vh-100 d-flex flex-column" id="contenedor-principal">
+      <!--   -->
       <div class=" w-100 card text-white bg-secondary">
         <div class="card-header text-center">
           <div class="row">
@@ -26,6 +28,7 @@
           Navarro Ramírez María Daniela, Ruperto Martínez Raúl
         </div>
       </div>
+      <!--   -->
       <div class=" w-100  card text-white bg-dark" id="div-programa">
         <div class="card-header text-center">
           <h2>Análisis Léxico</h2>
@@ -63,9 +66,18 @@
             </form>
         </div>
       </div>
-
+      <!-- Zona de resultados  -->
       <div class="w-100 card text-white bg-dark">
         <div class="card-body">
+          <div class="row my-1" id="flechas">
+            <div class="col-2">
+              <img src="./iconos/back.svg" alt="atras" id="btn_afn" class="m-auto btn">
+            </div>
+            <div class="col-8"></div>
+            <div class="col-2">
+              <img src="./iconos/next.svg" alt="siguiente" id="btn_afd" class="m-auto btn">
+            </div>
+          </div>
           <div class="row">
             <div class="col-2 d-flex">
               <button class="btn btn-dark border m-auto" id="btn-afn" type="button">AFN</button>
@@ -78,7 +90,8 @@
               <button class="btn btn-dark border m-auto" id="btn-afd">AFD</button>
             </div>
           </div>
-          <table class="table table-dark table-striped mt-3">
+
+          <table class="table table-dark table-striped mt-3" id="tabla-afn">
             <thead>
               <tr id="ths-aut">
               </tr>
@@ -87,10 +100,21 @@
               
             </tbody>
           </table>
+
+          <table class="table table-dark table-striped mt-3"  id="tabla-afd">
+            <thead>
+              <tr id="ths-afd">
+              </tr>
+            </thead>
+            <tbody id="afd-body">
+              
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-    <script src="./libs/jquery.js"></script>
+    <script type="module" src="./libs/jquery.js"></script>
     <script type="module" src="./controllers/controlador.js"></script>
+    <script type="module" src="./controllers/afd_cont.js"></script>
   </body>
 </html>

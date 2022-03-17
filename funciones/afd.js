@@ -152,11 +152,10 @@ const construyeAfd = (dEstados = [],encabezados = [], transiciones) => {
         }
         TABLA.push(fila);
     }
-    console.log(TABLA);
+    return {TABLA,encs};
 }
 
 export function AFD (transiciones = [], encabezados = []) {
-    console.log("Creando afd");
     const dEstados = cerraduraEpsilon(transiciones, encabezados);
-    construyeAfd(dEstados,encabezados, transiciones);
+    return construyeAfd(dEstados,encabezados, transiciones);
 }

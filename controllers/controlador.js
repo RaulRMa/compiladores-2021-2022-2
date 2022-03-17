@@ -1,6 +1,7 @@
 import { convierteAPosfija } from "../funciones/posfija.js"; //Importa la función de conversión
 import { afn, encabezados, filasTabla } from "../funciones/afn.js";
 import { AFD } from "../funciones/afd.js";
+import { mainAfd } from "./afd_cont.js";
 /**
  * Obtiene los elementos HTML a manipular mediante código
  *  - boton: boton html que desencadena las acciones del algoritmo
@@ -18,7 +19,7 @@ const inputExpresion = document.getElementById("expresion-regular");
 const inputResultado = document.getElementById("resultado-conversion");
 const contenedorResultado = document.getElementById("div-programa");
 const contenedor = document.getElementById("contenedor-principal");
-
+$("#flechas").hide()
 /**
  * Crea un div html donde se desplegará el mensaje de
  * error en caso de que este ocurra
@@ -58,6 +59,7 @@ let encabezadosAfd = [];
 const btnAfn = document.getElementById("btn-afn");
 const clickCreaAfn = () => {
   if (posfija != "") {
+    $("#tabla-afn").show();
     const automata = afn(posfija);
     const enc = encabezados(automata);
     encabezadosAfd = enc;
@@ -127,6 +129,7 @@ const cadenaConjunto = (arreglo = []) => {
 }
 
 const inicializaElementos = () => {
+  $("#flechas").hide()
   $("#aut-body").empty();
   $("#n-estados").empty();
   $("#n-transiciones").empty();
@@ -134,6 +137,6 @@ const inicializaElementos = () => {
 };
 btnAfn.addEventListener("click", clickCreaAfn);
 
-$("#btn-afd").click(() => {
-  AFD(transicionesAfn, encabezadosAfd);
+$("#btn-afd").click(() => {+
+  mainAfd(transicionesAfn,encabezadosAfd);
 });
