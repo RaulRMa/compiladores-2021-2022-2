@@ -243,7 +243,7 @@ const kleen = (automata, nombre) => {
 };
 
 const esOperando = (caracter = "") => {
-  const expresionRegular = "^[a-zA-Z0-9]$";
+  const expresionRegular = "^[a-zA-Z0-9.]$";
   if (caracter.match(expresionRegular) != null) return caracter;
   return "\0";
 };
