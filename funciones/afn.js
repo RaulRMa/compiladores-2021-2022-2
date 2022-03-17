@@ -346,11 +346,50 @@ const encabezados = () => {
   return resultado;
 }
 
+const filasTabla = (totalFilas) => {
+  let encabezadosT = encabezados();
+  encabezadosT = encabezadosT.filter((enc,i,array) => i == array.indexOf(enc));
+  encabezadosT.push("ε");
+  const filasTabla = [];
+  for (let i = 0; i <= totalFilas; i++) {
+    const fila = {
+      estado: i,
+      conjuntos: [],
+      encabezado: [],
+    }
+    for(let encabezado of encabezadosT){
+      fila.encabezado.push( encabezado);
+      const subconjuntos = [];
+      estadoEncabezado(automata[0].transiciones,encabezado,subconjuntos,i);
+      if(subconjuntos.length == 0){
+        fila.conjuntos.push("Φ")
+      }else{
+        fila.conjuntos.push(subconjuntos);
+      }
+    }
+    filasTabla.push(fila);
+  }
+  return{
+    encabezados:encabezadosT,
+    filas: filasTabla,
+  }
+}
+
+const estadoEncabezado = (transiciones, encabezado, arreglo, edo) =>{
+  for (let i = 0; i < transiciones.length; i++) {
+      const trans = transiciones[i];
+      if(trans.nombre == encabezado && trans.estadoInicio.nombre == edo){
+          arreglo.push(trans.estadoDestino)
+      }
+  }
+}
+
 function afn(posfija = "") {
   arrPosfija = posfija.split("");
-  return creaAfn(arrPosfija);
+  automata = creaAfn(arrPosfija);
+  return automata;
 }
 
 export {
-  afn, encabezados,
+  afn, encabezados,filasTabla
 }

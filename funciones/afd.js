@@ -29,27 +29,17 @@ const cerraduraEpsilon = (transiciones = [], encabezados = []) => {
     recorridoEpsilon(edoInicio,transiciones,edoA);
     dEstados.push(dEstado("A",edoA));
     const conjuntos = [];
-    const TABLA = [];
     for(let k = 0; k < dEstados.length; k++){
         const dEstadoSub = dEstados[k];
-        const fila = {
-            estado: "",
-            encabezados:[],
-            transiciones: [],
-        };
-        fila.estado = dEstadoSub.nombre;
         for (let c = 0; c < encs.length; c++) {
             const ultimo = dEstados[dEstados.length -1];
             const encabezado = encs[c];
-            fila.encabezados.push(encabezado);
             let estados = [];
             dEstadoSub.subconjuntos.forEach(edo => {
                 estadoEncabezado(transiciones,encabezado,estados,edo);
             })
-            if(estados.length == 0){
-                fila.transiciones.push("");
-                continue;
-            }
+            if(estados.length == 0)continue;
+            
             marcaNovisitados(transiciones);
             const subconjuntos = [];
             let nombreCerradura = '{';
@@ -63,15 +53,9 @@ const cerraduraEpsilon = (transiciones = [], encabezados = []) => {
             if(!subConjuntoExiste(dEstados,subconjuntos)){
                 dEstados.push(objeto);
                 conjuntos.push(subconjuntos);
-            }else{
-                const nombreEstado = subConjuntoRepetido(dEstados,subconjuntos);
-                fila.transiciones.push(nombreEstado.nombre);
             }
-            
         }
-        TABLA.push(fila);
     }
-    console.log(TABLA);
     return dEstados;
 }
 

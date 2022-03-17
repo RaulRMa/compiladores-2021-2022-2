@@ -1,6 +1,6 @@
-import { convierteAPosfija } from "./posfija.js"; //Importa la función de conversión
-import { afn, encabezados } from "./afn.js";
-import {AFD} from './afd.js';
+import { convierteAPosfija } from "../funciones/posfija.js"; //Importa la función de conversión
+import { afn, encabezados, filasTabla } from "../funciones/afn.js";
+import { AFD } from "../funciones/afd.js";
 /**
  * Obtiene los elementos HTML a manipular mediante código
  *  - boton: boton html que desencadena las acciones del algoritmo
@@ -64,10 +64,8 @@ const clickCreaAfn = () => {
     const fin = automata[0].transiciones.length;
     transicionesAfn = automata[0].transiciones;
     const tamano = automata[0].transiciones[fin - 1].estadoDestino.nombre;
-    encabezadosTabla(enc);
-    const columnas = columnasTabla(automata[0].transiciones, enc);
-    agregaTotales(automata);
-    agregaFilas(columnas, tamano, enc);
+    tabla(tamano);
+     agregaTotales(automata)
   } else {
     alert("No hay posfija");
   }
@@ -76,10 +74,14 @@ const clickCreaAfn = () => {
 const agregaTotales = (automata) => {
   const fin = automata[0].transiciones.length;
   const totEdos = automata[0].transiciones[fin - 1].estadoDestino.nombre;
-  let totTrans =0;
-  automata[0].transiciones.forEach(elemento => elemento.nombre == 'ε' ? totTrans++ : 0);
+  let totTrans = 0;
+  automata[0].transiciones.forEach((elemento) =>
+    elemento.nombre == "ε" ? totTrans++ : 0
+  );
   $("#n-estados").append(
-    `<div class="btn btn-dark m-auto text-center" >Número de estados: ${totEdos+1}</div>`
+    `<div class="btn btn-dark m-auto text-center" >Número de estados: ${
+      totEdos + 1
+    }</div>`
   );
   $("#n-transiciones").append(
     `<div class="btn btn-dark m-auto text-center" >Número de transiciones ε: ${totTrans}</div>`
@@ -88,7 +90,6 @@ const agregaTotales = (automata) => {
 
 const encabezadosTabla = (arreglo = []) => {
   let element;
-  let indx;
   $("#ths-aut").append(`<th scope="col" class="enc-aut text-center">Edo</th>`);
   arreglo.forEach((elemento, i) => {
     element = `
@@ -96,81 +97,43 @@ const encabezadosTabla = (arreglo = []) => {
     `;
     $("#ths-aut").append(element);
   });
-  $("#ths-aut").append(`<th scope="col" class="enc-aut text-center">ε</th>`);
 };
 
-const columnasTabla = (transiciones = [], operandos = []) => {
-  operandos.push("ε");
-  const columnas = [];
-  for (let i = 0; i < operandos.length; i++) {
-    const op = operandos[i];
-    const conjuntos = [];
-    const objeto = { operando: op };
-    for (let j = 0; j < transiciones.length; j++) {
-      const trans = transiciones[j];
-      if (op == trans.nombre) {
-        conjuntos.push(trans);
-      } else {
-        conjuntos.push("Φ");
-      }
-    }
-    objeto["transiciones"] = conjuntos;
-    columnas.push(objeto);
-  }
-  return columnas;
-};
-const columnasTabla2 = (transiciones = [], operandos = []) => {
-  operandos.push("ε");
-  const columnas = [];
-  for (let i = 0; i < operandos.length; i++) {
-    transiciones.forEach(elemento => {
-
-    })
-  }
-  return columnas;
-};
-const agregaFilas = (columnas, tamano, operadores) => {
-
+const tabla = (tamano) => {
   let body = $("#aut-body").empty();
-  for (let i = 0; i <= tamano; i++) {
+  const t = filasTabla(tamano);
+  const filas = t.filas;
+  encabezadosTabla(t.encabezados);
+  filas.forEach((fila, i) => {
     $(body).append(`<tr id="fila-${i}-aut"></tr>`);
-    $(`#fila-${i}-aut`).append(`<th class="text-center">${i}</th>`);
-    let band = false;
-    let aux = "";
-    columnas.forEach((col) => {
-      const trans = col.transiciones[i];
+    $(`#fila-${i}-aut`).append(`<th class="text-center">${fila.estado}</th>`);
+    fila.conjuntos.forEach((conjunto) => {
       $(`#fila-${i}-aut`).append(
-        `<td class="text-center">${trans == "Φ" ? trans : trans.estadoDestino.nombre}</td>`
+        `<td class="text-center">${
+          conjunto == "Φ" ? "Φ" : cadenaConjunto(conjunto)
+        }</td>`
       );
     });
-  }
+  });
 };
 
-const agregaFilas2 = (columnas, tamano, operadores) => {
-  let body = $("#aut-body").empty();
-  for (let i = 0; i <= tamano; i++) {
-    $(body).append(`<tr id="fila-${i}-aut"></tr>`);
-    $(`#fila-${i}-aut`).append(`<th class="text-center">${i}</th>`);
-    let band = false;
-    let aux = "";
-    columnas.forEach((col) => {
-      const trans = col.transiciones[i];
-      $(`#fila-${i}-aut`).append(
-        `<td class="text-center">${trans == "Φ" ? trans : trans.estadoDestino.nombre}</td>`
-      );
-    });
-  }
-};
+const cadenaConjunto = (arreglo = []) => {
+  let cadena = "{";
+  arreglo.forEach((elemento,i) => {
+    if(i != arreglo.length -1) cadena += `${elemento.nombre},`;
+    else cadena += `${elemento.nombre}}`
+  });
+  return cadena;
+}
 
 const inicializaElementos = () => {
   $("#aut-body").empty();
   $("#n-estados").empty();
   $("#n-transiciones").empty();
   $("#ths-aut").empty();
-
-}
+};
 btnAfn.addEventListener("click", clickCreaAfn);
 
-$("#btn-afd").click(() =>{
-  AFD(transicionesAfn,encabezadosAfd);
+$("#btn-afd").click(() => {
+  AFD(transicionesAfn, encabezadosAfd);
 });
