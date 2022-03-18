@@ -41,6 +41,11 @@ function creaTabla(tabla = []) {
             );
         })
     });
+    $("#totDEstados").append(
+        `<div class="btn btn-dark m-auto text-center" >Número de dEstados: ${
+          filas.length
+        }</div>`
+      );
 }
 function encabezadosTabla(encs = []) {
     let elemento = '';
@@ -51,9 +56,11 @@ function encabezadosTabla(encs = []) {
         `;
         $("#ths-afd").append(elemento);
     })
+
 }
 export function mainAfd(transiciones, encabezados) {
     inicializa();
     const tabla = AFD(transiciones, encabezados);
+    console.log(tabla);
     creaTabla(tabla);
 }

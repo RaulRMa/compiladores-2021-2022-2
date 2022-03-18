@@ -10,7 +10,7 @@ Array.prototype.equals = function (getArray) {
     }
     return true;
 };//Sobre escribe el método de javascript para comparar 2 arreglos
-//const dEstados = [];
+
 const dEstado = (nombre = '', subconjuntos = []) =>{
     return {
         nombre,subconjuntos,
@@ -19,7 +19,7 @@ const dEstado = (nombre = '', subconjuntos = []) =>{
 }
 
 const cerraduraEpsilon = (transiciones = [], encabezados = []) => {
-    encabezados.pop();
+    //encabezados.pop();
     let encs = encabezados.filter((enc,i,array) => i == array.indexOf(enc));
     marcaNovisitados(transiciones);
     const edoInicio = transiciones[0].estadoInicio;

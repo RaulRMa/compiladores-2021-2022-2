@@ -134,6 +134,9 @@ const inicializaElementos = () => {
   $("#n-estados").empty();
   $("#n-transiciones").empty();
   $("#ths-aut").empty();
+  $("#ths-afd").empty();
+  $("#afd-body").empty();
+  $("#totDEstados").empty();
 };
 btnAfn.addEventListener("click", clickCreaAfn);
 
