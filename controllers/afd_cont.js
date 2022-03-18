@@ -16,12 +16,14 @@ function funcionesFlechas(){
         $("#btn_afn").hide();
         $("#tabla-afd").hide("linear");
         $("#tabla-afn").show("linear");
+        $("#totDEstados").hide();
     })
     $("#btn_afd").click(()=>{
         $("#btn_afn").show();
         $("#btn_afd").hide();
         $("#tabla-afn").hide("linear");
         $("#tabla-afd").show("linear");
+        $("#totDEstados").show("linear");
     })
 }
 

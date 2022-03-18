@@ -153,20 +153,25 @@ const concatenacion = (
   } else if (tipo == 1) {
     let edo3 = "";
     let transAux2 = "";
+    colocaNoVisitado(automat2.transiciones);
+    automat2.transiciones.forEach((elemento, indx) => {
+      if (!elemento.estadoInicio.visitado) {
+        elemento.estadoInicio.visitado = true;
+        elemento.estadoInicio.nombre--;
+      }
+      if (indx == automat2.transiciones.length - 1) {
+        elemento.estadoDestino.nombre--;
+      }
+    })
     automat2.transiciones.forEach((transicion, indx) => {
       if (indx == 0) {
         edo2 = transicion.estadoDestino;
         transAux = transicion;
-        edo2.nombre--;
       } else if (indx == 1) {
         edo3 = transicion.estadoDestino;
         transAux2 = transicion;
-        edo3.nombre--;
       } else {
-        transicion.estadoDestino.nombre--;
         transiciones2.push(transicion);
-        if (indx == automat2.transiciones.length - 1)
-          transicion.estadoDestino.nombre++;
       }
     });
     const concatenacion = Transicion(edo1, edo2, transAux.nombre);
