@@ -63,6 +63,6 @@ function encabezadosTabla(encs = []) {
 export function mainAfd(transiciones, encabezados) {
     inicializa();
     const tabla = AFD(transiciones, encabezados);
-    console.log(tabla);
     creaTabla(tabla);
+    return tabla;
 }

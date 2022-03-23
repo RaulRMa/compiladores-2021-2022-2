@@ -2,6 +2,7 @@ import { convierteAPosfija } from "../funciones/posfija.js"; //Importa la funciÃ
 import { afn, encabezados, filasTabla } from "../funciones/afn.js";
 import { AFD } from "../funciones/afd.js";
 import { mainAfd } from "./afd_cont.js";
+import {mainLexema} from "./lexema_cont.js";
 /**
  * Obtiene los elementos HTML a manipular mediante cÃ³digo
  *  - boton: boton html que desencadena las acciones del algoritmo
@@ -37,6 +38,7 @@ const alerta = document.createElement("div");
  */
 // 3*(6-4+(2*3))+1
 let posfija = "";
+mainLexema();
 const clickBotonConvierte = () => {
   inicializaElementos();
   posfija = "";
@@ -140,6 +142,7 @@ const inicializaElementos = () => {
 };
 btnAfn.addEventListener("click", clickCreaAfn);
 
-$("#btn-afd").click(() => {+
-  mainAfd(transicionesAfn,encabezadosAfd);
+$("#btn-afd").click(() => {
+  const AFD = mainAfd(transicionesAfn,encabezadosAfd);
+  mainLexema(AFD);
 });

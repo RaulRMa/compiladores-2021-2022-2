@@ -15,6 +15,7 @@ const dEstado = (nombre = '', subconjuntos = []) =>{
     return {
         nombre,subconjuntos,
         visitado: false,
+        aceptacion: false,
     }
 }
 
@@ -50,6 +51,7 @@ const cerraduraEpsilon = (transiciones = [], encabezados = []) => {
                 recorridoEpsilon(edo,transiciones,subconjuntos);
             });
             objeto.subconjuntos = subconjuntos;
+            aceptacion(transiciones,objeto);
             if(!subConjuntoExiste(dEstados,subconjuntos)){
                 dEstados.push(objeto);
                 conjuntos.push(subconjuntos);
@@ -57,6 +59,18 @@ const cerraduraEpsilon = (transiciones = [], encabezados = []) => {
         }
     }
     return dEstados;
+}
+
+const aceptacion = (transiciones = [], dEst = dEstado()) => {
+    let ultimo = transiciones[transiciones.length - 1];
+    ultimo = ultimo.estadoDestino.nombre;
+    for (let i = 0; i < dEst.subconjuntos.length; i++) {
+        const element = dEst.subconjuntos[i];
+        if(element.estado.nombre == ultimo){
+            dEst.aceptacion = true;
+            break;
+        }
+    }
 }
 
 const subConjuntoExiste = (dEstados = [], subconj = []) =>{
