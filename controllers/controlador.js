@@ -20,7 +20,9 @@ const inputExpresion = document.getElementById("expresion-regular");
 const inputResultado = document.getElementById("resultado-conversion");
 const contenedorResultado = document.getElementById("div-programa");
 const contenedor = document.getElementById("contenedor-principal");
+
 $("#flechas").hide()
+$("#flechas-lex").hide()
 /**
  * Crea un div html donde se desplegará el mensaje de
  * error en caso de que este ocurra
@@ -38,7 +40,11 @@ const alerta = document.createElement("div");
  */
 // 3*(6-4+(2*3))+1
 let posfija = "";
-mainLexema();
+function inicializaDocumento (){
+  //$("#lexema").hide();
+  $("#flechas-lex").hide();
+}
+//inicializaDocumento();
 const clickBotonConvierte = () => {
   inicializaElementos();
   posfija = "";
@@ -131,7 +137,8 @@ const cadenaConjunto = (arreglo = []) => {
 }
 
 const inicializaElementos = () => {
-  $("#flechas").hide()
+  $("#flechas").hide();
+  $("#flechas-lex").hide();
   $("#aut-body").empty();
   $("#n-estados").empty();
   $("#n-transiciones").empty();
@@ -139,6 +146,8 @@ const inicializaElementos = () => {
   $("#ths-afd").empty();
   $("#afd-body").empty();
   $("#totDEstados").empty();
+  $("#aviso-pertenece").empty();
+  $("#cadena-lexema").val("");
 };
 btnAfn.addEventListener("click", clickCreaAfn);
 

@@ -1,127 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- CSS only -->
-    <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="./estilos/main.css">
-    <title>Document</title>
-  </head>
-  <body>
-    <div class="container vh-100 d-flex flex-column" id="contenedor-principal">
-      <!--   -->
-      <div class=" w-100 card text-white bg-secondary">
-        <div class="card-header text-center">
-          <div class="row">
-            <div class="col-6">Fundamentos de compiladores</div>
-            <div class="col-6">Equipo: undefined</div>
-          </div>
-        </div>
-        <div class="card-header text-center">
-          Navarro Ramírez María Daniela, Ruperto Martínez Raúl
-        </div>
-      </div>
-      <!--   -->
-      <div class=" w-100  card text-white bg-dark" id="div-programa">
-        <div class="card-header text-center">
-          <h2>Análisis Léxico</h2>
-        </div>
-        <div class="card-body">
-            <form>
-                <div class="input-group input-group-lg mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Expresión regular"
-                    aria-label="Expresión regular"
-                    aria-describedby="button-addon2"
-                    id="expresion-regular"
-                  />
-                  <button
-                    class="btn btn-dark border"
-                    type="button"
-                    id="boton-convertir"
-                  >
-                    Convertir a posfija
-                  </button>
-                </div>
-                <div class="input-group input-group-lg mb-3">
-                  <input
-                    type="text"
-                    class="form-control text-center disabled"
-                    placeholder="Posfija"
-                    aria-label="Posfija"
-                    aria-describedby="button-addon2"
-                    disabled
-                    id="resultado-conversion"
-                  />
-                </div>
-            </form>
-        </div>
-      </div>
-      <!-- Zona de resultados  -->
-      <div class="w-100 card text-white bg-dark">
-        <div class="card-body">
-          <div class="row my-1" id="flechas">
-            <div class="col-2">
-              <img src="./iconos/back.svg" alt="atras" id="btn_afn" class="m-auto btn">
-            </div>
-            <div class="col-8"></div>
-            <div class="col-2">
-              <img src="./iconos/next.svg" alt="siguiente" id="btn_afd" class="m-auto btn">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-2 d-flex">
-              <button class="btn btn-dark border m-auto" id="btn-afn" type="button">AFN</button>
-            </div>
-            <div class="col-4 d-flex" id="n-estados">
-            </div>
-            <div class="col-4 d-flex" id="n-transiciones">
-            </div>
-            <div class="col-2 d-flex">
-              <button class="btn btn-dark border m-auto" id="btn-afd">AFD</button>
-            </div>
-          </div>
 
-          <table class="table table-dark table-striped mt-3" id="tabla-afn">
-            <thead>
-              <tr id="ths-aut">
-              </tr>
-            </thead>
-            <tbody id="aut-body">
-              
-            </tbody>
-          </table>
-          <div id="totDEstados"></div>
-          <table class="table table-dark table-striped mt-3"  id="tabla-afd">
-            <thead>
-              <tr id="ths-afd">
-              </tr>
-            </thead>
-            <tbody id="afd-body">
-              
-            </tbody>
-          </table>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- CSS only -->
+  <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="./estilos/main.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container vh-100 d-flex flex-column" id="contenedor-principal">
+    <!--   -->
+    <div class=" w-100 card text-white bg-secondary">
+      <div class="card-header text-center">
+        <div class="row">
+          <div class="col-6">Fundamentos de compiladores</div>
+          <div class="col-6">Equipo: undefined</div>
+        </div>
+      </div>
+      <div class="card-header text-center">
+        Navarro Ramírez María Daniela, Ruperto Martínez Raúl
+      </div>
+    </div>
+    <!--   -->
+    <div class=" w-100  card text-white bg-dark" id="div-programa">
+      <div class="card-header text-center">
+        <h2>Análisis Léxico</h2>
+      </div>
+      <div class="card-body">
+        <div class="row my-1" id="flechas-lex" >
+          <div class="col-2">
+            <img src="./iconos/back.svg" alt="atras" id="btn_er" class="m-auto btn">
+          </div>
+          <div class="col-8"></div>
+          <div class="col-2">
+            <img src="./iconos/next.svg" alt="siguiente" id="btn_lex" class="m-auto btn">
+          </div>
+        </div>
+        <form id="exp-reg">
           <div class="input-group input-group-lg mb-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Lexema"
-              aria-label="Lexema"
-              aria-describedby="button-addon2"
-              id="lexema"
-            />
-            <button
-              class="btn btn-dark border"
-              type="button"
-              id="boton-analizar"
-            >
+            <input type="text" class="form-control" placeholder="Expresión regular" aria-label="Expresión regular"
+              aria-describedby="button-addon2" id="expresion-regular" />
+            <button class="btn btn-dark border" type="button" id="boton-convertir">
+              Convertir a posfija
+            </button>
+          </div>
+          <div class="input-group input-group-lg mb-3">
+            <input type="text" class="form-control text-center disabled" placeholder="Posfija" aria-label="Posfija"
+              aria-describedby="button-addon2" disabled id="resultado-conversion" />
+          </div>
+        </form>
+        <form id="lexema" hidden>
+          <div class="input-group input-group-lg mb-3">
+            <input type="text" class="form-control" placeholder="Lexema" aria-label="Lexema"
+              aria-describedby="button-addon2" id="cadena-lexema" />
+            <button class="btn btn-dark border" type="button" id="boton-analizar">
               Validar
             </button>
+          </div>
+          <div class=" mb-3" id="aviso-pertenece">
+
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Zona de resultados  -->
+    <div class="w-100 card text-white bg-dark">
+      <div class="card-body">
+        <div class="row my-1" id="flechas">
+          <div class="col-2">
+            <img src="./iconos/back.svg" alt="atras" id="btn_afn" class="m-auto btn">
+          </div>
+          <div class="col-8"></div>
+          <div class="col-2">
+            <img src="./iconos/next.svg" alt="siguiente" id="btn_afd" class="m-auto btn">
+          </div>
         </div>
+        <div class="row">
+          <div class="col-2 d-flex">
+            <button class="btn btn-dark border m-auto" id="btn-afn" type="button">AFN</button>
+          </div>
+          <div class="col-4 d-flex" id="n-estados">
+          </div>
+          <div class="col-4 d-flex" id="n-transiciones">
+          </div>
+          <div class="col-2 d-flex">
+            <button class="btn btn-dark border m-auto" id="btn-afd">AFD</button>
+          </div>
+        </div>
+
+        <table class="table table-dark table-striped mt-3" id="tabla-afn">
+          <thead>
+            <tr id="ths-aut">
+            </tr>
+          </thead>
+          <tbody id="aut-body">
+
+          </tbody>
+        </table>
+        <div id="totDEstados"></div>
+        <table class="table table-dark table-striped mt-3" id="tabla-afd">
+          <thead>
+            <tr id="ths-afd">
+            </tr>
+          </thead>
+          <tbody id="afd-body">
+
+          </tbody>
+        </table>
       </div>
     </div>
     <script src="./libs/bootstrap/js/popper.min.js"></script>
@@ -129,5 +118,6 @@
     <script type="module" src="./libs/jquery.js"></script>
     <script type="module" src="./controllers/controlador.js"></script>
     <script type="module" src="./controllers/afd_cont.js"></script>
-  </body>
+</body>
+
 </html>

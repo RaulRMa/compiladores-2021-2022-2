@@ -10,6 +10,7 @@ function inicializa() {
 
 function funcionesFlechas(){
     $("#flechas").show()
+    $("#flechas-lex").show()
     $("#btn_afd").hide();
     $("#btn_afn").click(()=>{
         $("#btn_afd").show();
