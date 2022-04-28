@@ -67,13 +67,13 @@ export function analisisLexico(identificador, numero, cadena){
   const afdNum = obtenAfd(numero);
   tokens.forEach(token => {
     if(reservadas.lastIndexOf(token) != -1 || simbolos.lastIndexOf(token) != -1){
-      objeto[token] = token
+      objeto[token] = token; 
     }else if(Lexema(token, afdIdent)){
       objeto[`identificador-${token}`] = token;
     }else if(Lexema(token, afdNum)){
       objeto[`Número-${token}`] = token;
     }else{
-      objeto["Error léxico"] = token;
+      objeto[`Error léxico-${token}`] = token;
     }
   })
   return objeto;
