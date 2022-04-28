@@ -3,6 +3,7 @@ import { afn, encabezados, filasTabla } from "../funciones/afn.js";
 import { AFD } from "../funciones/afd.js";
 import { mainAfd } from "./afd_cont.js";
 import {mainLexema} from "./lexema_cont.js";
+import {aLexicoMain} from './aLexico_cont.js';
 /**
  * Obtiene los elementos HTML a manipular mediante código
  *  - boton: boton html que desencadena las acciones del algoritmo
@@ -20,6 +21,7 @@ const inputExpresion = document.getElementById("expresion-regular");
 const inputResultado = document.getElementById("resultado-conversion");
 const contenedorResultado = document.getElementById("div-programa");
 const contenedor = document.getElementById("contenedor-principal");
+let activo = 1;
 
 $("#flechas").hide()
 $("#flechas-lex").hide()
@@ -155,3 +157,14 @@ $("#btn-afd").click(() => {
   const AFD = mainAfd(transicionesAfn,encabezadosAfd);
   mainLexema(AFD);
 });
+$("#li-gramatica").click(() => {
+  $("#gramatica").removeClass("d-none");
+  $("#avances").addClass("d-none");
+})
+
+$("#li-avances").click(() => {
+  $("#avances").removeClass("d-none");
+  $("#gramatica").addClass("d-none");
+});
+
+aLexicoMain();

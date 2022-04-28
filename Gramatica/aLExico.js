@@ -1,14 +1,10 @@
-import "./gramatica";
+import  "./gramatica.js";
 import {convierteAPosfija} from '../funciones/posfija.js';
 import {afn,encabezados} from '../funciones/afn.js';
 import {AFD} from '../funciones/afd.js'
-const codigo = `
-  read x;
-    repeat
-      x := x + 1;
-      write1 x
-      until x < 10
-`;
+import {Lexema} from '../funciones/lexema.js'
+import Gramatica from "./gramatica.js";
+let codigo = 0;
 const identificador = "[a-z]+";
 const numero = '[0-9]+';
 const gramatica = new Gramatica();
@@ -63,7 +59,8 @@ const obtenAfd = (expreg = '') => {
     const tablaAfd = AFD(transiciones,encs);
     return tablaAfd.TABLA;
 }
-export function analisisLexico(){
+export function analisisLexico(identificador, numero, cadena){
+  codigo = cadena;
   const tokens = onbtenTokens();
   const objeto = {};
   const afdIdent = obtenAfd(identificador);

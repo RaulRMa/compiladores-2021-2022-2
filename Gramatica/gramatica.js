@@ -1,4 +1,4 @@
-class Gramatica{
+export default class Gramatica{
 
     constructor(){
         this.sTerminales = this.terminales();
@@ -83,5 +83,3 @@ class Gramatica{
     }
 
 }
-
-module.export = Gramatica;
