@@ -202,31 +202,56 @@
                   </tr>
                   <tr>
                     <td>secuencia-sent</td>
-                    <td>sec-sent -> sent se</td>
+                    <td>sec-sent -> sent sec-sent'</td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>sec-sent -> sent</td>
+                    <td>sec-sent -> sent sec-sent'</td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>sec-sent -> sent sec-sent'</td>
+                    <td>sec-sent -> sent sec-sent'</td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>sec-sent -> sent sec-sent'</td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>sentencia</td>
+                    <td>secuencia-sent'</td>
+                    <td>secuencia-sent' -> e</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>secuencia-sent' -> e</td>
+                    <td></td>
+                    <td>secuencia-sent' -> e</td>
+                    <td>secuencia-sent' -> e</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>secuencia-sent' -> e</td>
+                    <td></td>
+                    <td>secuencia-sent' -> e</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>sent</td>
                     <td>sent -> sent-if</td>
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td>sent -> sent-repeat</td>
+                    <td></td>
+                    <td>sent -> sent-read</td>
+                    <td>sent -> sent-write</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -235,16 +260,12 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>sent -> sent-assign</td>
                     <td></td>
                   </tr>
                   <tr>
                     <td>sent-if</td>
-                    <td>sent-if -> if exp the</td>
+                    <td>sent-if -> if exp then sec-sent sec-sent'</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -267,7 +288,7 @@
                     <td>sent-if'</td>
                     <td></td>
                     <td></td>
-                    <td>sent-if' -> else</td>
+                    <td>sent-if' -> else sec-sent end</td>
                     <td>sent-if' -> end</td>
                     <td></td>
                     <td></td>
@@ -290,7 +311,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>sent-repeat -> repeat sec-sent until</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -323,7 +344,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>sent-assign -> identificador:=exp </td>
                     <td></td>
                   </tr>
                   <tr>
@@ -334,7 +355,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>sent-read -> read identificador</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -355,7 +376,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>sent-write -> write exp</td>
                     <td></td>
                     <td></td>
                     <td></td>
