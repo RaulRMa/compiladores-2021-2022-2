@@ -13,3 +13,6 @@ gram.sTerminales.simbolos.forEach(simb => {
     `);
 })
 
+$("#inptabla").click(() => {
+    $("#tabla-anSint").removeClass("d-none");
+})

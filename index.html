@@ -170,7 +170,7 @@
           <div>
             <button type="button" id="inptabla" class="form-control text-center">Construir tabla de análisis sintáctico M</button>
           </div>
-          <div class="row overflow-auto">
+          <div class="row overflow-auto d-none" id="tabla-anSint">
             <table class="w-100 table table-bordered table-dark table-striped mt-3" id="tabla-sintactica">
               <thead>
                 <tr id="ths-gram">
@@ -450,8 +450,8 @@
                     <td></td>
                     <td></td>
                     <td>op_comp->= </td>
-                    <td></td>
-                    <td></td>
+                    <td>op_comp-> < </td>
+                    <td>op_comp->> </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -474,8 +474,12 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td>exp_simple->term exp-simplePrim </td>
                     <td></td>
                     <td></td>
+                    <td></td>
+                    <td>exp_simple->term exp-simplePrim </td>
+                    <td>exp_simple->term exp-simplePrim </td>
                   </tr>
                   <tr>
                     <td>opsuma</td>
@@ -486,8 +490,8 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>opsuma->+ </td>
+                    <td>opsuma->- </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -516,7 +520,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>term->factor termPrim </td>
                     <td></td>
                   </tr>
                   <tr>
@@ -525,20 +529,22 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td>term' -> e</td>
+                    <td></td>
+                    <td>term' -> e</td>
+                    <td>term' -> e</td>
+                    <td>term' -> e</td>
+                    <td>term' -> e</td>
+                    <td>termPrim->opmult factor termPrim </td>
+                    <td>termPrim->opmult factor termPrim </td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td>term' -> e</td>
+                    <td>term' -> e</td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>term' -> e</td>
                   </tr>
                   <tr>
                     <td>opmult</td>
@@ -552,8 +558,8 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>opmult->* </td>
+                    <td>opmult->/ </td>
                     <td></td>
                     <td></td>
                     <td></td>
