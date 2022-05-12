@@ -25,7 +25,7 @@
         Navarro Ramírez María Daniela, Ruperto Martínez Raúl
       </div>
     </div>
-    <!--   -->
+    <!-- Tabs de avances  -->
     <div class=" w-100  card text-white bg-dark" id="div-programa">
       <div class="card-header text-center">
         <h2>Análisis Léxico</h2>
@@ -38,6 +38,9 @@
         </li>
         <li class="nav-item" id="li-gramatica">
           <a class="nav-link text-decoration-none text-light" aria-current="page" href="#">Gramática tiny</a>
+        </li>
+        <li class="nav-item" id="li-sintactico">
+          <a class="nav-link text-decoration-none text-light" aria-current="page" href="#">Análisis sintáctico LL(1)</a>
         </li>
       </ul>
 
@@ -124,8 +127,8 @@
         </table>
       </div>
     </div>
-
-    <div class="w-100 card text-white bg-dark" id="gramatica">
+    <!-- Zona de resultados Gramática tiny -->
+    <div class="w-100 card text-white bg-dark d-none" id="gramatica">
       <form>
         <div class="h-100 input-group input-group-lg mb-3 p-3 d-flex justify-content-between">
           <div>
@@ -160,13 +163,26 @@
       </form>
 
     </div>
+    <!-- Zona de resultados Análisis sintácticos LL(1) -->
+    <div class="w-100 card text-white bg-dark" id="an-sintactico">
+      <form>
+        <div class="h-100 input-group input-group-lg mb-3 p-3 d-flex justify-content-between">
+          <div>
+            <button type="button" id="inptabla" class="form-control text-center">Construir tabla de análisis sintáctico M</button>
+          </div>
+          
+        </div>
+      </form>
 
+    </div>
+    
     <script src="./libs/bootstrap/js/popper.min.js"></script>
     <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
     <script type="module" src="./libs/jquery.js"></script>
     <script type="module" src="./controllers/controlador.js"></script>
     <script type="module" src="./controllers/afd_cont.js"></script>
     <script type="module" src="./controllers/aLexico_cont.js"></script>
+    <script type="module" src="./controllers/aSintactico_cont.js"></script>
 </body>
 
 </html>

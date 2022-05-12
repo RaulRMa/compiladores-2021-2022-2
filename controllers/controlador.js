@@ -160,11 +160,19 @@ $("#btn-afd").click(() => {
 $("#li-gramatica").click(() => {
   $("#gramatica").removeClass("d-none");
   $("#avances").addClass("d-none");
+  $("#an-sintactico").addClass("d-none");
 })
 
 $("#li-avances").click(() => {
   $("#avances").removeClass("d-none");
   $("#gramatica").addClass("d-none");
+  $("#an-sintactico").addClass("d-none");
+});
+
+$("#li-sintactico").click(() => {
+  $("#avances").addClass("d-none");
+  $("#gramatica").addClass("d-none");
+  $("#an-sintactico").removeClass("d-none");
 });
 
 aLexicoMain();
