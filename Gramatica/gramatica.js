@@ -82,4 +82,55 @@ export default class Gramatica{
         ];
     }
 
+    siguientes(){
+        return{
+            "programa" : ["$"],
+            "secuencia-sent" : ["end", "else"," until"],
+            "secuencia-sentl": ["end", "else"," until"],
+            "sentencia": [";" , "end", "else", "until"],
+            "sent-if": [";" , "end", "else", "until"],
+            "sent-ifl": [";" , "end", "else", "until"],
+            "sent-repeat": [";" , "end", "else", "until"],
+            "sent-assing": [";" , "end", "else", "until"],
+            "sent-read": [";" , "end", "else", "until"],
+            "sent-write": [";" , "end", "else", "until"],
+            "exp": ["then", ";" , "end", "else", "until", ")"],
+            "expl": ["then", ";" , "end", "else", "until", ")"],
+            "op-comp": ["(", "numero", "identificador"],
+            "exp-simple": ["<", ">", "=", "then", ";" , "end", "else", "until", ")"],
+            "exp-simplel": ["<", ">", "=", "then", ";" , "end", "else", "until", ")"],
+            "opsuma": ["(", "numero", "identificador"],
+            "term": ["+", "-", "<", ">", "=", "then", ";" , "end", "else", "until", ")"],
+            "terml": ["+", "-", "<", ">", "=", "then", ";" , "end", "else", "until", ")"],
+            "opmult": ["(", "numero", "identificador"],
+            "factor": ["*", "/", "+", "-", "<", ">", "=", "then", ";" , "end", "else", "until", ")"],
+        }
+        
+    }
+
+    primeros(){
+        return{
+            "programa": ["if", "repeat", "identificador", "read", "write"],
+            "secuencia-sent": ["if", "repeat", "identificador", "read", "write"],
+            "sentencia": ["if", "repeat", "identificador", "read", "write"],
+            "sent-if": ["if"],
+            "sent-repeat": ["repeat"],
+            "sent-assing": ["identificador"],
+            "sent-read": ["read"],
+            "sent-write": ["write"],
+            "secuencia-sentl": [ ";" , "ε "],
+            "sent-ifl": ["end", "else"],
+            "exp": ["(", "numero", "identificador"],
+            "factor": ["(", "numero", "identificador"],
+            "term": ["(", "numero", "identificador"],
+            "exp-simple": ["(", "numero", "identificador"],
+            "expl": ["<", ">", "=", "ε"],
+            "op-comp": ["<", ">", "="],
+            "exp-simplel": ["+", "-", "ε" ],
+            "opsuma": ["+", "-"],
+            "terml": ["*", "/", "ε"],
+            "opmult": ["*", "/"]
+        }
+    }
+
 }
