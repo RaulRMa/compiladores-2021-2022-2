@@ -85,25 +85,25 @@ export default class Gramatica{
     siguientes(){
         return{
             "programa" : ["$"],
-            "secuencia-sent" : ["end", "else"," until"],
-            "secuencia-sentl": ["end", "else"," until"],
-            "sentencia": [";" , "end", "else", "until"],
-            "sent-if": [";" , "end", "else", "until"],
-            "sent-ifl": [";" , "end", "else", "until"],
-            "sent-repeat": [";" , "end", "else", "until"],
-            "sent-assing": [";" , "end", "else", "until"],
-            "sent-read": [";" , "end", "else", "until"],
-            "sent-write": [";" , "end", "else", "until"],
-            "exp": ["then", ";" , "end", "else", "until", ")"],
-            "expl": ["then", ";" , "end", "else", "until", ")"],
+            "secuencia-sent" : ["$","end", "else"," until"],
+            "secuencia-sent'": ["$","end", "else"," until"],
+            "sentencia": [";","$" , "end", "else", "until"],
+            "sent-if": [";","$" , "end", "else", "until"],
+            "sent-if'": [";","$" , "end", "else", "until"],
+            "sent-repeat": [";","$" , "end", "else", "until"],
+            "sent-assing": [";","$" , "end", "else", "until"],
+            "sent-read": [";" ,"$", "end", "else", "until"],
+            "sent-write": [";","$" , "end", "else", "until"],
+            "exp": ["then", ";","$" , "end", "else", "until", ")"],
+            "expl": ["then", ";","$" , "end", "else", "until", ")"],
             "op-comp": ["(", "numero", "identificador"],
-            "exp-simple": ["<", ">", "=", "then", ";" , "end", "else", "until", ")"],
-            "exp-simplel": ["<", ">", "=", "then", ";" , "end", "else", "until", ")"],
+            "exp-simple": ["<", "=", "then", ";","$" , "end", "else", "until", ")"],
+            "exp-simple'": ["<", "=", "then", ";","$", "end", "else", "until", ")"],
             "opsuma": ["(", "numero", "identificador"],
-            "term": ["+", "-", "<", ">", "=", "then", ";" , "end", "else", "until", ")"],
-            "terml": ["+", "-", "<", ">", "=", "then", ";" , "end", "else", "until", ")"],
+            "term": ["+", "-", "<", "=", "then", ";","$", "end", "else", "until", ")"],
+            "term'": ["+", "-", "<", "=", "then", ";" ,"$", "end", "else", "until", ")"],
             "opmult": ["(", "numero", "identificador"],
-            "factor": ["*", "/", "+", "-", "<", ">", "=", "then", ";" , "end", "else", "until", ")"],
+            "factor": ["*", "/", "+", "-", "<", "=", "then", ";","$", "end", "else", "until", ")"],
         }
         
     }
@@ -133,4 +133,192 @@ export default class Gramatica{
         }
     }
 
+    tablaM() {
+        return {
+            "programa":[
+                {
+                    produccion: "secuencia-sent",
+                    columnas:["if","repeat","identificador","read","write"]
+                },
+            ],
+            "secuencia-sent":[
+                {
+                    produccion: "sentencia secuencia-sent´",
+                    columnas:["if","repeat","identificador","read","write"]
+                },
+            ],
+            "secuencia-sent'":[
+                {
+                    produccion: "; sentencia secuencia-sent'",
+                    columnas:[";"]
+                },
+                {
+                    produccion: "ϵ",
+                    columnas:["$","end","else","until"]
+                },
+            ],
+            "sentencia":[
+                {
+                    produccion: "sent-if",
+                    columnas:["if"]
+                },
+                {
+                    produccion: "sent-repeat",
+                    columnas:["repeat"]
+                },
+                {
+                    produccion: "sent-assign",
+                    columnas:["identificador"]
+                },{
+                    produccion: "sent-read",
+                    columnas:["read"]
+                },{
+                    produccion: "sent-write",
+                    columnas:["write"]
+                },
+            ],
+            "sent-if":[
+                {
+                    produccion: "if exp then secuencia-sent sent-if'",
+                    columnas:["if"]
+                }
+            ],
+            "sent-if'":[
+                {
+                    produccion: "end",
+                    columnas:["end"]
+                },
+                {
+                    produccion: "else secuencia-sent end",
+                    columnas:["else"]
+                },
+            ],
+            "sent-repeat":[
+                {
+                    produccion: "repeat secuencia-sent until exp",
+                    columnas:["repeat"]
+                },
+            ],
+            "sent-assign":[
+                {
+                    produccion: "sent-assign à identificador := exp",
+                    columnas:["identificador"]
+                },
+            ],
+            "sent-read":[
+                {
+                    produccion: "read identificador",
+                    columnas:["read"]
+                },
+            ],
+            "sent-write":[
+                {
+                    produccion: "write exp",
+                    columnas:["write"]
+                },
+            ],
+            "exp":[
+                {
+                    produccion: "exp-simple exp'",
+                    columnas:["(","numero","identificador"]
+                },
+            ],
+            "exp'":[
+                {
+                    produccion: "op-comp exp-simple",
+                    columnas:["<","="]
+                },
+                {
+                    produccion: "ϵ",
+                    columnas:["then",";","$","end","else","until",")"]
+                },
+            ],
+            "op-comp":[
+                {
+                    produccion: "<",
+                    columnas:["<"]
+                },
+                {
+                    produccion: "=",
+                    columnas:["="]
+                },
+            ],
+            "exp-simple":[
+                {
+                    produccion: "term exp-simple",
+                    columnas:["(","numero","identificador"]
+                },
+            ],
+            "exp-simple'":[
+                {
+                    produccion: "opsuma term exp-simple'",
+                    columnas:["+","-",]
+                },
+                {
+                    produccion: "ϵ",
+                    columnas:["<","=","then",";","$","end","else","until",")"]
+                },
+            ],
+            "opsuma":[
+                {
+                    produccion: "+",
+                    columnas:["+"]
+                },
+                {
+                    produccion: "-",
+                    columnas:["-"]
+                },
+            ],
+            "term":[
+                {
+                    produccion: "factor term'",
+                    columnas:["(","numero","identificador"]
+                },
+            ],
+            "term'":[
+                {
+                    produccion: "opmult factor term'",
+                    columnas:["*","/"]
+                },
+                {
+                    produccion: "ϵ",
+                    columnas:["+","-","<","=","then",";","$","end","else","until",")"]
+                },
+            ],
+            "opmult":[
+                {
+                    produccion: "*",
+                    columnas:["*"]
+                },
+                {
+                    produccion: "/",
+                    columnas:["/"]
+                }
+            ],
+            "factor":[
+                {
+                    produccion: "(exp)",
+                    columnas:["("]
+                },
+                {
+                    produccion: "numero",
+                    columnas:["numero"]
+                },
+                {
+                    produccion: "identificador",
+                    columnas:["identificador"]
+                }
+            ],
+        }
+    }
+
+    gramaticaP(){
+        return {
+            terminales: ["if", "then","else","end","repeat","until","read","write","numero", "identificador",
+                        "+","-","*","/","=","<",">","(",")",";",":=","$",],
+            nTerminales:["programa","secuencia-sent","secuencia-sent'","sentencia","sent-if","sent-if'",
+                        "sent-repeat","sent-assign","sent-read","sent-write","exp","exp'","op-comp","exp-simple",
+                        "exp-simple'","opsuma","term","term'","opmult","factor"]
+        }
+    }
 }
