@@ -8,7 +8,9 @@
   <!-- CSS only -->
   <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="./estilos/main.css">
-  <title>Document</title>
+  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  <title>Fundamentos de compiladores</title>
 </head>
 
 <body>
@@ -41,6 +43,9 @@
         </li>
         <li class="nav-item" id="li-sintactico">
           <a class="nav-link text-decoration-none text-light" aria-current="page" href="#">Análisis sintáctico LL(1)</a>
+        </li>
+        <li class="nav-item" id="li-lexSint">
+          <a class="nav-link text-decoration-none active" aria-current="page" href="#">Análisis léxico y sintáctico</a>
         </li>
       </ul>
 
@@ -164,7 +169,7 @@
 
     </div>
     <!-- Zona de resultados Análisis sintácticos LL(1) -->
-    <div class="w-100 card text-white bg-dark" id="an-sintactico">
+    <div class="w-100 card text-white bg-dark d-none" id="an-sintactico">
       <form>
         <div class="h-100 input-group input-group-lg mb-3 p-3 d-flex justify-content-between">
           <div>
@@ -186,7 +191,30 @@
       </form>
 
     </div>
-    
+    <!-- Zona de resultados análisis léxico y sintáctico -->
+    <div class="w-100 card text-white bg-dark" id="an-lexsint">
+      <form>
+        <div class="h-100 input-group input-group-lg mb-3 p-3 d-flex justify-content-between">
+          <div>
+            <input type="text" name="" id="inpIdentificador" class="form-control text-center" placeholder="Identificador">
+          </div>
+          <div>
+            <input type="text" name="" id="inpNumero" class="form-control text-center" placeholder="Número">
+          </div>
+          <h3 class="text-center">Programa en lenguaje Tiny</h3>
+          <div class="w-100">
+            <textarea class="form-control" rows="10" id="areaTexto"></textarea>
+          </div>
+          <div class="row w-100">
+            <div class="row">
+              <button type="button" class="form-control" id="btn-clasifica">Análisis léxico y sintáctico del programa en lenguaje tiny</button>
+            </div>
+            
+          </div>
+        </div>
+      </form>
+
+    </div>
     <script src="./libs/bootstrap/js/popper.min.js"></script>
     <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
     <script type="module" src="./libs/jquery.js"></script>

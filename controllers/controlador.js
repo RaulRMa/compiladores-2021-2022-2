@@ -161,18 +161,27 @@ $("#li-gramatica").click(() => {
   $("#gramatica").removeClass("d-none");
   $("#avances").addClass("d-none");
   $("#an-sintactico").addClass("d-none");
+  $("#an-lexsint").addClass("d-none");
 })
 
 $("#li-avances").click(() => {
   $("#avances").removeClass("d-none");
   $("#gramatica").addClass("d-none");
   $("#an-sintactico").addClass("d-none");
+  $("#an-lexsint").addClass("d-none");
 });
 
 $("#li-sintactico").click(() => {
   $("#avances").addClass("d-none");
   $("#gramatica").addClass("d-none");
   $("#an-sintactico").removeClass("d-none");
+  $("#an-lexsint").addClass("d-none");
+});
+$("#li-lexSint").click(() => {
+  $("#avances").addClass("d-none");
+  $("#gramatica").addClass("d-none");
+  $("#an-lexsint").removeClass("d-none");
+  $("#an-sintactico").addClass("d-none");
 });
 
 aLexicoMain();
