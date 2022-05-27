@@ -4,14 +4,15 @@ import {afn,encabezados} from '../funciones/afn.js';
 import {AFD} from '../funciones/afd.js'
 import {Lexema} from '../funciones/lexema.js'
 import Gramatica from "./gramatica.js";
-let codigo = 0;
+
 const identificador = "[a-z]+";
 const numero = '[0-9]+';
 const gramatica = new Gramatica();
 const simbolos = gramatica.sTerminales.simbolos;
 const reservadas = gramatica.sTerminales.reservadas;
 
-function onbtenTokens(){
+
+function onbtenTokens(codigo){
   let programa = codigo.replace(/[\r\n]/g,"");
   programa = programa.trim();
   simbolos.forEach(simbolo => {
@@ -59,9 +60,10 @@ const obtenAfd = (expreg = '') => {
     const tablaAfd = AFD(transiciones,encs);
     return tablaAfd.TABLA;
 }
-export function analisisLexico(identificador, numero, cadena){
-  codigo = cadena;
-  const tokens = onbtenTokens();
+
+function analisisLexico(identificador, numero, cadena){
+  
+  const tokens = onbtenTokens(cadena);
   const objeto = {};
   const afdIdent = obtenAfd(identificador);
   const afdNum = obtenAfd(numero);
@@ -71,10 +73,34 @@ export function analisisLexico(identificador, numero, cadena){
     }else if(Lexema(token, afdIdent)){
       objeto[`identificador-${token}`] = token;
     }else if(Lexema(token, afdNum)){
-      objeto[`Número-${token}`] = token;
+      objeto[`numero-${token}`] = token;
     }else{
       objeto[`Error léxico-${token}`] = token;
     }
   })
   return objeto;
+}
+
+function analisisLexico2(identificador, numero, cadena){
+  
+  const tokens = onbtenTokens(cadena);
+  const objeto = {};
+  const afdIdent = obtenAfd(identificador);
+  const afdNum = obtenAfd(numero);
+  tokens.forEach((token,indx) => {
+    if(reservadas.lastIndexOf(token) != -1 || simbolos.lastIndexOf(token) != -1){
+      objeto[`${token}-${indx}`] = token; 
+    }else if(Lexema(token, afdIdent)){
+      objeto[`identificador-${indx}-${token}`] = token;
+    }else if(Lexema(token, afdNum)){
+      objeto[`numero-${indx}-${token}`] = token;
+    }else{
+      objeto[`Error léxico-${token}`] = token;
+    }
+  })
+  return objeto;
+}
+
+export {
+  analisisLexico,onbtenTokens, analisisLexico2
 }

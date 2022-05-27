@@ -13,7 +13,6 @@ function inicializaElementos(){
 function creaTabla(resultado){
 
     const claves = Object.keys(resultado);
-    console.log(resultado);
     claves.forEach(clave => {
         let auxiliar = clave;
         let valor = resultado[clave];

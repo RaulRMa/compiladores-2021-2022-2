@@ -8,8 +8,10 @@
   <!-- CSS only -->
   <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="./estilos/main.css">
-  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="./libs/treeview-checkbox/css/jquery.treeview.css">
+
   <title>Fundamentos de compiladores</title>
 </head>
 
@@ -196,25 +198,34 @@
       <form>
         <div class="h-100 input-group input-group-lg mb-3 p-3 d-flex justify-content-between">
           <div>
-            <input type="text" name="" id="inpIdentificador" class="form-control text-center" placeholder="Identificador">
+            <input type="text" name="" id="inpIdentificadorALS" class="form-control text-center" placeholder="Identificador">
           </div>
           <div>
-            <input type="text" name="" id="inpNumero" class="form-control text-center" placeholder="Número">
+            <input type="text" name="" id="inpNumeroALS" class="form-control text-center" placeholder="Número">
           </div>
           <h3 class="text-center">Programa en lenguaje Tiny</h3>
           <div class="w-100">
-            <textarea class="form-control" rows="10" id="areaTexto"></textarea>
+            <textarea class="form-control" rows="10" id="areaTextoALS"></textarea>
           </div>
           <div class="row w-100">
             <div class="row">
-              <button type="button" class="form-control" id="btn-clasifica">Análisis léxico y sintáctico del programa en lenguaje tiny</button>
+              <button type="button" class="form-control" id="btn-als">Análisis léxico y sintáctico del programa en lenguaje tiny</button>
             </div>
-            
+            <div class="row d-none mt-3" id="divAlertALS">
+              <div class="alert alert-danger" role="alert" id="alertALS">
+                
+              </div>
+            </div>
+            <div class="row mt-3" id="divarbolALS">
+              <div class="" role="alert" id="arbolALS">
+              </div>
+            </div>
           </div>
         </div>
       </form>
 
     </div>
+    <script src="./libs/treeview-checkbox/js/jquery.treeview.js"></script>
     <script src="./libs/bootstrap/js/popper.min.js"></script>
     <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
     <script type="module" src="./libs/jquery.js"></script>
@@ -222,6 +233,7 @@
     <script type="module" src="./controllers/afd_cont.js"></script>
     <script type="module" src="./controllers/aLexico_cont.js"></script>
     <script type="module" src="./controllers/aSintactico_cont.js"></script>
+    <script type="module" src="./controllers/aSintLL1_cont.js"></script>
 </body>
 
 </html>

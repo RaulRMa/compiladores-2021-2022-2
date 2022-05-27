@@ -143,7 +143,7 @@ export default class Gramatica{
             ],
             "secuencia-sent":[
                 {
-                    produccion: "sentencia secuencia-sent´",
+                    produccion: "sentencia secuencia-sent'",
                     columnas:["if","repeat","identificador","read","write"]
                 },
             ],
@@ -201,7 +201,7 @@ export default class Gramatica{
             ],
             "sent-assign":[
                 {
-                    produccion: "sent-assign à identificador := exp",
+                    produccion: "identificador := exp",
                     columnas:["identificador"]
                 },
             ],
@@ -245,7 +245,7 @@ export default class Gramatica{
             ],
             "exp-simple":[
                 {
-                    produccion: "term exp-simple",
+                    produccion: "term exp-simple'",
                     columnas:["(","numero","identificador"]
                 },
             ],

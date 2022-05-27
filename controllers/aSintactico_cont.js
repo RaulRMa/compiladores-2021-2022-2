@@ -23,9 +23,6 @@ $("#inptabla").click(() => {
         const prod = filaNt[i];
         for (let j = 0; j < prod.columnas.length; j++) {
           const col = prod.columnas[j];
-          if(term == ":="){
-            console.log(`produccion: ${nt}`,"comparando: ", term , " con: ", col);
-          }
           if(term == col){
             fila.append(`<td>${nt} -> ${prod.produccion} </td>`);
             bandera = true;
