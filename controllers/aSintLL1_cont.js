@@ -28,8 +28,6 @@ const iniciaComps = () =>{
   $("#btn-als").click(() => {
     anLS();  
   });
-  const arbol = new TreeView(objetoArbol);
-  $("#arbolALS").append( arbol.root );
 }
 
 const anLS = () => {
@@ -42,7 +40,10 @@ const anLS = () => {
   if(errores){
     mensajeError(errores,cadena);
   }else{
-    mainLL1(cadena, resultado);
+    const result = mainLL1(cadena, resultado);
+    console.log("Resultado: ", result);
+    const arbol = new TreeView(result);
+    $("#arbolALS").append( arbol.root );
   }
 }
 

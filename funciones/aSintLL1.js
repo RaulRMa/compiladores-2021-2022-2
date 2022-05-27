@@ -3,19 +3,6 @@ import Gramatica from '../Gramatica/gramatica.js';
 
 const G = new Gramatica();
 
-const raizArbol = {
-  text:"Parent 2",
-  children:[
-    {
-      text:"Parent 3",
-      children:[
-        {text:"Child 3",checked:true},
-        {text:"Child 4"}
-      ]
-    }
-  ]
-};
-
 const objArbol =[{
   text:"Parent 1",// Required
   checked:true,// Optional
@@ -44,13 +31,22 @@ const algoritmo = (tokens, analisis) => {
   w.push("$");
   
   let X = pila[0];
+  const raizArbol =  {
+    text:"",
+    children:[]
+  };
+  
+  raizArbol.text = X;
   let cont = 0;
   let a = w[cont];
-  
+
   //contenidoTabla(X,a,tabla)
+  let raizAux = raizArbol;
+  let raiz = {}
   while(X != "$"){
     if(X == a){ 
-      pila.shift();
+      const tope = pila.shift();
+      raizAux.children.push({text: tope,checked:true});
       cont++;
       a = w[cont];
     }
@@ -64,15 +60,27 @@ const algoritmo = (tokens, analisis) => {
          console.log("Hay un error");
       }
       else if(contenido[0] != "ϵ"){
-        pila.shift();
+      
+        const tope1 = pila.shift();
         pila.unshift(...contenido);
+        const tope = pila[0];
+        if(!esTerminal(tope)){
+          raiz = {
+            text:"",
+            children:[]
+          };
+          raiz.text = tope;
+          raizAux.children.push(raiz);
+          raizAux = raiz;
+        }
       }else{
-        console.log("No pasa nada");
         pila.shift();
+        raizAux.children.push({text: "ε",checked:true});
       }
     }
     X = pila[0];
   }
+  return [raizArbol];
 }
 
 const contenidoTabla = (simbolo = "", produccion = "", tabla = {}) => {
@@ -103,5 +111,5 @@ const esTerminal = (simbolo) => {
 
 export function mainLL1(programa, analisis){
   const entrada = onbtenTokens(programa);
-  algoritmo(entrada, analisis);
+  return algoritmo(entrada, analisis);
 }

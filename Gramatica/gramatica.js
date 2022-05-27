@@ -118,7 +118,7 @@ export default class Gramatica{
             "sent-assing": ["identificador"],
             "sent-read": ["read"],
             "sent-write": ["write"],
-            "secuencia-sentl": [ ";" , "ε "],
+            "secuencia-sentl": [ ";" , "ε"],
             "sent-ifl": ["end", "else"],
             "exp": ["(", "numero", "identificador"],
             "factor": ["(", "numero", "identificador"],
