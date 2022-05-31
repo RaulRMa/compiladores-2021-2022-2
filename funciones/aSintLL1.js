@@ -1,4 +1,5 @@
 import {onbtenTokens,analisisLexico2} from '../Gramatica/aLExico.js';
+import Arbol from '../Gramatica/arbol.js';
 import Gramatica from '../Gramatica/gramatica.js';
 
 const G = new Gramatica();
@@ -40,10 +41,14 @@ const algoritmo = (tokens, analisis) => {
   let cont = 0;
   let a = w[cont];
 
+  const arbol = new Arbol(X);
+
   //contenidoTabla(X,a,tabla)
   let raizAux = raizArbol;
   let raiz = {}
+
   while(X != "$"){
+    const arbolAux = arbol.obtenHijo(X);
     if(X == a){ 
       const tope = pila.shift();
       raizAux.children.push({text: tope,checked:true});
@@ -60,7 +65,13 @@ const algoritmo = (tokens, analisis) => {
          console.log("Hay un error");
       }
       else if(contenido[0] != "ϵ"){
-      
+        for(const prod of contenido){
+          if(esTerminal(prod)){
+            arbolAux.inserta(prod);
+          }else if (!arbol.obtenHijo(prod)){
+            arbolAux.inserta(prod);
+          }
+        }
         const tope1 = pila.shift();
         pila.unshift(...contenido);
         const tope = pila[0];
@@ -74,12 +85,14 @@ const algoritmo = (tokens, analisis) => {
           raizAux = raiz;
         }
       }else{
+        arbolAux.inserta("ε");
         pila.shift();
         raizAux.children.push({text: "ε",checked:true});
       }
     }
     X = pila[0];
   }
+  console.log(arbol);
   return [raizArbol];
 }
 
