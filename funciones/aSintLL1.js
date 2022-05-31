@@ -32,26 +32,24 @@ const algoritmo = (tokens, analisis) => {
   w.push("$");
   
   let X = pila[0];
-  const raizArbol =  {
-    text:"",
-    children:[]
-  };
   
-  raizArbol.text = X;
   let cont = 0;
   let a = w[cont];
 
-  const arbol = new Arbol(X);
-
-  //contenidoTabla(X,a,tabla)
-  let raizAux = raizArbol;
-  let raiz = {}
-
+  let contador = 0;
+  const arbol = new Arbol(X, contador);
+  const raizHtml = $("#raizArbol");
+  raizHtml.text(arbol.nombre);
+  let nodoRHtml = $("#listaRaiz");
+  let arbolAux = arbol;
+  const listaAux = [arbol];
+  let x2 = arbol;
+  //listaAux.push("$");
   while(X != "$"){
-    const arbolAux = arbol.obtenHijo(X);
+    let arbolAux = arbol.obtenHijo(X);
     if(X == a){ 
-      const tope = pila.shift();
-      raizAux.children.push({text: tope,checked:true});
+      pila.shift();
+      listaAux.shift();
       cont++;
       a = w[cont];
     }
@@ -65,35 +63,104 @@ const algoritmo = (tokens, analisis) => {
          console.log("Hay un error");
       }
       else if(contenido[0] != "ϵ"){
+        const sublista = [];
         for(const prod of contenido){
           if(esTerminal(prod)){
-            arbolAux.inserta(prod);
-          }else if (!arbol.obtenHijo(prod)){
-            arbolAux.inserta(prod);
+            const nuevoNodo = x2.inserta(prod,contador++);
+            
+            const nodo = `
+              <li>
+                <span class="tf-nc">${nuevoNodo.nombre}</span>
+              </li>
+            `;
+            $(`#ul-${x2.id}`).append(nodo);
+            sublista.push(nuevoNodo);
+          }else{
+            const nuevoNodo = x2.inserta(prod,contador++);
+            const nodo = `
+              <li>
+                <span class="tf-nc">${nuevoNodo.nombre}</span>
+                <ul id="ul-${nuevoNodo.id}">
+                </ul>
+              </li>
+            `;
+            $(`#ul-${x2.id}`).append(nodo);
+            sublista.push(nuevoNodo);
           }
         }
-        const tope1 = pila.shift();
-        pila.unshift(...contenido);
-        const tope = pila[0];
-        if(!esTerminal(tope)){
-          raiz = {
-            text:"",
-            children:[]
-          };
-          raiz.text = tope;
-          raizAux.children.push(raiz);
-          raizAux = raiz;
-        }
-      }else{
-        arbolAux.inserta("ε");
         pila.shift();
-        raizAux.children.push({text: "ε",checked:true});
+        listaAux.shift();
+        listaAux.unshift(...sublista);
+        pila.unshift(...contenido);
+
+      }else{
+        const nuevoNodo = x2.inserta("ε");
+        const nodo = `
+              <li>
+                <span class="tf-nc">${nuevoNodo.nombre}</span>
+              </li>
+            `;
+        $(`#ul-${x2.id}`).append(nodo);
+        pila.shift();
+        listaAux.shift();
       }
     }
     X = pila[0];
+    x2 = listaAux[0];
   }
-  console.log(arbol);
-  return [raizArbol];
+  return arbol;
+}
+
+
+const estructuraArbol = (arbol = new Arbol()) => {
+  const raiz = $("#raizArbol");
+  raiz.text(`${arbol.nombre}`);
+  let nodoRaiz = $("#listaRaiz");
+  let indx = 0;
+  let id = "";
+  let bandera = false;
+  let cont = 0;
+  let nodoAnt = arbol;
+  arbol.recorreArbol(nodo => {
+    if(nodo.hijos.length != 0){
+      const nodoHtml = $(`
+        <li>
+          <span class="tf-nc">${nodo.nombre}</span>
+          <ul id="ul-${nodo.id}-${indx}">
+          </ul>
+        </li>
+      `);
+      if(nodoAnt != "" && cont < nodoAnt.hijos.length){
+        cont = 0;
+        nodoRaiz.append(nodoHtml);
+      }else{
+        cont++;
+        nodoRaiz = $(`#ul-${id}-${indx - 1}`);
+        nodoRaiz.append(nodoHtml);
+      }
+      
+      // if(!bandera){
+      //   nodoRaiz.append(nodoHtml);
+      // }else{
+      //   nodoRaiz = $(`#ul-${id}-${indx}`);
+      //   nodoRaiz.append(nodoHtml);
+      // }
+      indx++;
+      id = nodo.id;
+    }else{
+      bandera = true;
+      const nodoHoja = $(`
+        <li>
+          <span class="tf-nc">${nodo.nombre}</span>
+          <ul id="ul-${nodo.id}-${indx}">
+          </ul>
+        </li>
+      `);
+      $(`#ul-${id}-${indx}`).append(nodoHoja);
+    }
+    nodoAnt = nodo;
+  })
+  return null;
 }
 
 const contenidoTabla = (simbolo = "", produccion = "", tabla = {}) => {
@@ -124,5 +191,7 @@ const esTerminal = (simbolo) => {
 
 export function mainLL1(programa, analisis){
   const entrada = onbtenTokens(programa);
-  return algoritmo(entrada, analisis);
+  const arbol = algoritmo(entrada, analisis);
+  //const estructura = estructuraArbol(arbol);
+  //return algoritmo(entrada, analisis);
 }

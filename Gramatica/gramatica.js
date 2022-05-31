@@ -8,7 +8,7 @@ export default class Gramatica{
 
     terminales(){
         return{
-            reservadas:["if", "then","else","end","repeat","until","read","write"],
+            reservadas:["if", "then","else","end","repeat","until","read","write","identificador","numero"],
             simbolos: ["+","-","*","/","=","<",">","(",")",";",":="]
         }
     }
