@@ -1,28 +1,6 @@
 import { mainLL1 } from '../funciones/aSintLL1.js';
 import {analisisLexico2} from '../Gramatica/aLExico.js';
 
-const objetoArbol = [
-  {
-    text:"Parent 1",// Required
-    checked:true,// Optional
-    id:15,
-    otherDatas:"Other Datas",// Optional
-    children:[// Required
-      { text:"Child 1" /* Required */, checked:true },
-      { text:"Child 2" /* Required */ }
-    ]},{
-    text:"Parent 2",
-    children:[
-      {
-        text:"Parent 3",
-        children:[
-          {text:"Child 3",checked:true},
-          {text:"Child 4"}
-        ]
-      }
-    ]
-  }
-]
 
 const iniciaComps = () =>{
   $("#btn-als").click(() => {
@@ -81,6 +59,7 @@ const mensajeError = (errores = [],programa = "") =>{
     const linea = `Línea ${error.numLinea}. ${error.error} no se reconoce.\t`;
     mensaje += linea;
   });
+  console.log("Error léxico");
   $("#alertALS").html(mensaje);
   $("#divAlertALS").removeClass("d-none");
 }

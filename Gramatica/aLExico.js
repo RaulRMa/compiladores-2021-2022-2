@@ -88,9 +88,13 @@ function analisisLexico2(identificador, numero, cadena){
   const afdIdent = obtenAfd(identificador);
   const afdNum = obtenAfd(numero);
   tokens.forEach((token,indx) => {
-    if(reservadas.lastIndexOf(token) != -1 || simbolos.lastIndexOf(token) != -1){
+    if(reservadas.lastIndexOf(token) != -1 ){
       objeto[`${token}-${indx}`] = token; 
-    }else if(Lexema(token, afdIdent)){
+    }
+    else if(simbolos.lastIndexOf(token) != -1){
+      objeto[`${token}a${indx}`] = token;
+    }
+    else if(Lexema(token, afdIdent)){
       objeto[`identificador-${indx}-${token}`] = token;
     }else if(Lexema(token, afdNum)){
       objeto[`numero-${indx}-${token}`] = token;

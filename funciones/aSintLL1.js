@@ -22,12 +22,18 @@ const algoritmo = (tokens, analisis) => {
   const primero = noTerminales[0];
   const pila = [primero,"$"];
   let w = tokens2.map(token => {
-    if(token.includes("-")){
+    if(token.includes("-") && token[0] != "-"){
       let letra = token.split("-");
       letra = letra[0];
       return letra;
+    }else if(token.includes("a")){
+      if(token.includes("-")){
+        console.log("Esto es un menos");
+      }
+      let simbolo = token.split("a");
+      simbolo = simbolo[0];
+      return simbolo;
     }
-    return token;
   })
   w.push("$");
   
@@ -44,7 +50,7 @@ const algoritmo = (tokens, analisis) => {
   let arbolAux = arbol;
   const listaAux = [arbol];
   let x2 = arbol;
-  //listaAux.push("$");
+  listaAux.push("$");
   while(X != "$"){
     let arbolAux = arbol.obtenHijo(X);
     if(X == a){ 
@@ -54,13 +60,16 @@ const algoritmo = (tokens, analisis) => {
       a = w[cont];
     }
     else if(esTerminal(X)){
-      console.log("Hay un error");
+      $("#alertALS").html("Error sintáctico");
+      $("#divAlertALS").removeClass("d-none");
       break;
     }
     else{
       const contenido = contenidoTabla(X,a,tabla);
       if(!contenido){
-         console.log("Hay un error");
+        $("#alertALS").html("Error sintáctico");
+        $("#divAlertALS").removeClass("d-none");
+        break;
       }
       else if(contenido[0] != "ϵ"){
         const sublista = [];
@@ -176,7 +185,7 @@ const contenidoTabla = (simbolo = "", produccion = "", tabla = {}) => {
 }
 
 const esTerminal = (simbolo) => {
-  const terminales = G.sTerminales;
+  const terminales = G.sTerminales2;
   for (let i = 0; i < terminales.simbolos.length; i++) {
     const simboloT = terminales.simbolos[i];
     if(simbolo == simboloT) return true;

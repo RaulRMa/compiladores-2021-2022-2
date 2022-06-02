@@ -2,11 +2,19 @@ export default class Gramatica{
 
     constructor(){
         this.sTerminales = this.terminales();
+        this.sTerminales2 = this.terminales2();
         this.sNoTerminales = this.noTerminales();
         this.gramatica = this.defineReglas();
     }
 
     terminales(){
+        return{
+            reservadas:["if", "then","else","end","repeat","until","read","write"],
+            simbolos: ["+","-","*","/","=","<",">","(",")",";",":="]
+        }
+    }
+
+    terminales2(){
         return{
             reservadas:["if", "then","else","end","repeat","until","read","write","identificador","numero"],
             simbolos: ["+","-","*","/","=","<",">","(",")",";",":="]
@@ -226,7 +234,7 @@ export default class Gramatica{
             "exp'":[
                 {
                     produccion: "op-comp exp-simple",
-                    columnas:["<","="]
+                    columnas:["<",">","="]
                 },
                 {
                     produccion: "ϵ",
@@ -237,6 +245,10 @@ export default class Gramatica{
                 {
                     produccion: "<",
                     columnas:["<"]
+                },
+                {
+                    produccion: ">",
+                    columnas:[">"]
                 },
                 {
                     produccion: "=",
@@ -256,7 +268,7 @@ export default class Gramatica{
                 },
                 {
                     produccion: "ϵ",
-                    columnas:["<","=","then",";","$","end","else","until",")"]
+                    columnas:["<",">","=","then",";","$","end","else","until",")"]
                 },
             ],
             "opsuma":[
@@ -282,7 +294,7 @@ export default class Gramatica{
                 },
                 {
                     produccion: "ϵ",
-                    columnas:["+","-","<","=","then",";","$","end","else","until",")"]
+                    columnas:["+","-","<",">","=","then",";","$","end","else","until",")"]
                 },
             ],
             "opmult":[
@@ -297,7 +309,7 @@ export default class Gramatica{
             ],
             "factor":[
                 {
-                    produccion: "(exp)",
+                    produccion: "( exp )",
                     columnas:["("]
                 },
                 {
